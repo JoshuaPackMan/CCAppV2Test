@@ -1,7 +1,6 @@
 package e.android.mysqldemo;
 
-import android.app.ProgressDialog;
-import android.net.Uri;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,10 +8,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,8 +32,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     EditText fieldAEt;
-    //EditText fieldBEt;
-    //private List<ListData> list_data;
     private RecyclerView rv;
     private MyAdapter adapter;
 
@@ -43,21 +40,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fieldAEt = findViewById(R.id.etFieldA);
-        //fieldBEt = findViewById(R.id.etFieldB);
-
-        /*
-        rv=findViewById(R.id.RView);
-        rv.setHasFixedSize(true);
-        rv.setLayoutManager(new LinearLayoutManager(this));
-        list_data=new ArrayList<>();
-        adapter=new MyAdapter(list_data);
-        */
     }
 
     public void onLogin(View v){
         String fieldA = fieldAEt.getText().toString();
         //String fieldB = fieldBEt.getText().toString();
         String type = "login";
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
         AsyncFetch backgroundWorker = new AsyncFetch();
         backgroundWorker.execute(type, fieldA);
     }
