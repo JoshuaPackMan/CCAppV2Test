@@ -10,23 +10,22 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
+    //private Context context;
     private LayoutInflater inflater;
-    List<ListData> data; //= Collections.emptyList();
-    //DataFish current;
+    List<ListData> data;
 
     // create constructor to initialize context and data sent from MainActivity
     public MyAdapter(Context context, List<ListData> data){
-        this.context=context;
-        inflater= LayoutInflater.from(context);
-        this.data=data;
+        //this.context=context;
+        inflater = LayoutInflater.from(context);
+        this.data =data;
     }
 
     // Inflate the layout when ViewHolder created
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=inflater.inflate(R.layout.row, parent,false);
-        MyHolder holder=new MyHolder(view);
+        View view = inflater.inflate(R.layout.row, parent,false);
+        MyHolder holder = new MyHolder(view);
         return holder;
     }
 
@@ -35,8 +34,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         // Get current position of item in RecyclerView to bind data and assign values from list
-        MyHolder myHolder= (MyHolder) holder;
-        ListData current=data.get(position);
+        MyHolder myHolder = (MyHolder) holder;
+        ListData current = data.get(position);
         myHolder.cardTV.setText(current.getCard());
         myHolder.rewardTV.setText(current.getReward());
 
@@ -55,7 +54,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public MyHolder(View itemView) {
             super(itemView);
-            cardTV= itemView.findViewById(R.id.card);
+            cardTV = itemView.findViewById(R.id.card);
             rewardTV = itemView.findViewById(R.id.reward);
         }
     }

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -110,34 +109,13 @@ public class MainActivity extends AppCompatActivity {
             if(result.equals("No Results Found")) {
                 Toast.makeText(MainActivity.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
             } else{
-            /*
-            try{
-                JSONObject obj = new JSONObject(result);
-                JSONObject zero = obj.getJSONObject("0");
-                String cardCompany0 = zero.getString("CardCompany");
-                String reward0 = zero.getString("Reward");
-                JSONObject one = obj.getJSONObject("1");
-                String cardCompany1 = one.getString("CardCompany");
-                String reward1 = one.getString("Reward");
-                String[] results = new String[4];
-                results[0] = cardCompany0;
-                results[1] = reward0;
-                results[2] = cardCompany1;
-                results[3] = reward1;
-                Log.v("mytag",Arrays.toString(results));
-            } catch(JSONException e){
-                e.printStackTrace();
-            }
-            */
                 try{
                     JSONObject obj = new JSONObject(result);
-                    Log.v("mytag","result: "+result);
                     int i = -1;
                     while(true){
                         try {
                             i++;
                             String index = Integer.toString(i);
-                            Log.v("mytag","index: "+index);
                             JSONObject cardReward = obj.getJSONObject(index);
                             String cardCompany = cardReward.getString("CardCompany");
                             String reward = cardReward.getString("Reward");
