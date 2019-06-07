@@ -2,30 +2,27 @@ package e.android.mysqldemo;
 
 public class BusinessListData {
     private String business;
+    public enum BusinessColor {WHITE, BLUE;}
+    private BusinessColor color;
 
-    public BusinessListData(String business) {
+    public BusinessListData(String business, BusinessColor color) {
         this.business = business;
+        this.color = color;
     }
 
     public String getBusiness() {
         return business;
     }
 
-    /*
-    private String card;
-    private String reward;
-
-    public BusinessListData(String card, String reward) {
-        this.card = card;
-        this.reward = reward;
+    public BusinessColor getColor(){
+        return color;
     }
 
-    public String getCard() {
-        return card;
+    public void cardClicked(){
+        if(color == BusinessColor.BLUE){
+            color = BusinessColor.WHITE;
+        } else{
+            color = BusinessColor.BLUE;
+        }
     }
-
-    public String getReward() {
-        return reward;
-    }
-    */
 }

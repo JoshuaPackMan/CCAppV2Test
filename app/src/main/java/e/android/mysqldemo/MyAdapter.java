@@ -1,8 +1,9 @@
 package e.android.mysqldemo;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,60 +11,73 @@ import android.widget.TextView;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    //private Context context;
     private LayoutInflater inflater;
     List<BusinessListData> data;
+    private OnItemClickListener mListener;
 
-    // create constructor to initialize context and data sent from MainActivity
-    public MyAdapter(Context context, List<BusinessListData> data){
-        //this.context=context;
-        inflater = LayoutInflater.from(context);
-        this.data = data;
-        Log.v("mytag","data size: "+data.size());
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
-    // Inflate the layout when ViewHolder created
+    public void setOnItemClickListener(OnItemClickListener listener){
+        mListener = listener;
+    }
+
+    //create constructor to initialize context and data sent from MainActivity
+    public MyAdapter(Context context, List<BusinessListData> data){
+        inflater = LayoutInflater.from(context);
+        this.data = data;
+    }
+
+    //Inflate the layout when ViewHolder created
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.row, parent,false);
-        MyHolder holder = new MyHolder(view);
+        MyHolder holder = new MyHolder(view, mListener);
         return holder;
     }
 
-    // Bind data
+    //Bind data
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        // Get current position of item in RecyclerView to bind data and assign values from list
+        //Get current position of item in RecyclerView to bind data and assign values from list
         MyHolder myHolder = (MyHolder) holder;
         BusinessListData current = data.get(position);
         myHolder.businessTV.setText(current.getBusiness());
-        Log.v("mytag","businessTV: "+current.getBusiness());
-        /*
-        myHolder.cardTV.setText(current.getCard());
-        myHolder.rewardTV.setText(current.getReward());
-        */
+        if(current.getColor() == BusinessListData.BusinessColor.BLUE){
+            myHolder.cardView.setCardBackgroundColor(Color.parseColor("#62f4fc"));
+        } else{
+            myHolder.cardView.setCardBackgroundColor(Color.parseColor("#fafafa"));
+        }
 
     }
 
-    // return total item from List
     @Override
     public int getItemCount() {
         return data.size();
     }
 
 
-    class MyHolder extends RecyclerView.ViewHolder{
+    class MyHolder extends RecyclerView.ViewHolder {
         TextView businessTV;
-        //TextView cardTV;
-        //TextView rewardTV;
+        CardView cardView;
 
-        public MyHolder(View itemView) {
+        public MyHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             businessTV = itemView.findViewById(R.id.business);
-            //cardTV = itemView.findViewById(R.id.card);
-            //rewardTV = itemView.findViewById(R.id.reward);
+            cardView = itemView.findViewById(R.id.cardView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(listener != null){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 

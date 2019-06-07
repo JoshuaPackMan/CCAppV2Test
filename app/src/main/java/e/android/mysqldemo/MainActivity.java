@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -28,36 +26,20 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    //EditText fieldAEt;
     private RecyclerView rv;
     private MyAdapter adapter;
+    private List<BusinessListData> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //fieldAEt = findViewById(R.id.etFieldA);
+
+        data = new ArrayList<>();
 
         AsyncFetch backgroundWorker = new AsyncFetch();
         backgroundWorker.execute("start");
     }
-
-    /*
-    public void onLogin(View v){
-        String fieldA = fieldAEt.getText().toString();
-        //String fieldB = fieldBEt.getText().toString();
-        String type = "login";
-
-        //to remove the keyboard after they hit search
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-        AsyncFetch backgroundWorker = new AsyncFetch();
-        backgroundWorker.execute(type, fieldA);
-    }
-    */
 
     private class AsyncFetch extends AsyncTask<String, String, String> {
         @Override
@@ -94,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                     String line;
                     while((line = bufferedReader.readLine())!= null) {
                         result += line;
-                        Log.v("mytag","line: "+line);
                     }
                     bufferedReader.close();
                     inputStream.close();
@@ -111,36 +92,38 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            List<BusinessListData> data = new ArrayList<>();
+            //List<BusinessListData> data = new ArrayList<>();
             if(result.equals("No Results Found")) {
                 Toast.makeText(MainActivity.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
             } else{
                 try{
-                    Log.v("mytag","result: "+result);
                     JSONArray results = new JSONArray(result);
-                    Log.v("mytag","results to string: "+results.toString());
                     int i = -1;
                     while(true){
                         try {
                             i++;
-                            //String index = Integer.toString(i);
                             JSONObject businessJSON = results.getJSONObject(i);
-                            //JSONObject businessJSON = results.get(i);
-                            //JSONObject businessJSONObj = results.get(i);
                             String business = businessJSON.getString("Business");
-                            Log.v("mytag","business: "+business);
-                            //String reward = cardReward.getString("Reward");
-                            BusinessListData businessListData = new BusinessListData(business);
+                            BusinessListData businessListData = new BusinessListData(business, BusinessListData.BusinessColor.WHITE);
                             data.add(businessListData);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             break;
                         }
                     }
+
+                    //set adapter and recycler view
                     rv = findViewById(R.id.RView);
                     adapter = new MyAdapter(MainActivity.this, data);
                     rv.setAdapter(adapter);
                     rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                    adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            data.get(position).cardClicked();
+                            adapter.notifyItemChanged(position);
+                        }
+                    });
                 } catch(JSONException e) {
                     e.printStackTrace();
                 }
