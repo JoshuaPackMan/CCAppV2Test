@@ -28,7 +28,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-    EditText fieldAEt;
+    //EditText fieldAEt;
     private RecyclerView rv;
     private MyAdapter adapter;
 
