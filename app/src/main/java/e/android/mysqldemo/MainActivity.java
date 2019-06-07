@@ -1,16 +1,15 @@
 package e.android.mysqldemo;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,7 +23,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,13 +36,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        fieldAEt = findViewById(R.id.etFieldA);
+        //fieldAEt = findViewById(R.id.etFieldA);
+
+        AsyncFetch backgroundWorker = new AsyncFetch();
+        backgroundWorker.execute("start");
     }
 
+    /*
     public void onLogin(View v){
         String fieldA = fieldAEt.getText().toString();
         //String fieldB = fieldBEt.getText().toString();
         String type = "login";
+
+        //to remove the keyboard after they hit search
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -53,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         AsyncFetch backgroundWorker = new AsyncFetch();
         backgroundWorker.execute(type, fieldA);
     }
+    */
 
     private class AsyncFetch extends AsyncTask<String, String, String> {
         @Override
@@ -64,13 +69,13 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             String type = params[0];
             String login_url = "http://mathwithpack.com/YYXXxZzPp829382adJlogin.php";
-            if(type.equals("login")) {
+            if(type.equals("start")) {
                 try {
-                    String fieldA = params[1];
+                    //String fieldA = params[1];
                     //String fieldB = params[2];
                     URL url = new URL(login_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setRequestMethod("GET");
                     httpURLConnection.setDoOutput(true);
                     httpURLConnection.setDoInput(true);
                     OutputStream outputStream = httpURLConnection.getOutputStream();
@@ -78,8 +83,8 @@ public class MainActivity extends AppCompatActivity {
                 /*String post_data = URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode(fieldA,"UTF-8")+"&"
                         +URLEncoder.encode("surname","UTF-8")+"="+URLEncoder.encode(fieldB,"UTF-8");
                 */
-                    String post_data = URLEncoder.encode("business","UTF-8")+"="+URLEncoder.encode(fieldA,"UTF-8");
-                    bufferedWriter.write(post_data);
+                    //String post_data = URLEncoder.encode("business","UTF-8")+"="+URLEncoder.encode(fieldA,"UTF-8");
+                    //bufferedWriter.write(post_data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
                     outputStream.close();
@@ -89,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     String line;
                     while((line = bufferedReader.readLine())!= null) {
                         result += line;
+                        Log.v("mytag","line: "+line);
                     }
                     bufferedReader.close();
                     inputStream.close();
@@ -105,33 +111,36 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            List<ListData> data = new ArrayList<>();
+            List<BusinessListData> data = new ArrayList<>();
             if(result.equals("No Results Found")) {
                 Toast.makeText(MainActivity.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
             } else{
                 try{
-                    JSONObject obj = new JSONObject(result);
+                    Log.v("mytag","result: "+result);
+                    JSONArray results = new JSONArray(result);
+                    Log.v("mytag","results to string: "+results.toString());
                     int i = -1;
                     while(true){
                         try {
                             i++;
-                            String index = Integer.toString(i);
-                            JSONObject cardReward = obj.getJSONObject(index);
-                            String cardCompany = cardReward.getString("CardCompany");
-                            String reward = cardReward.getString("Reward");
-                            ListData listData = new ListData(cardCompany,reward);
-                            data.add(listData);
+                            //String index = Integer.toString(i);
+                            JSONObject businessJSON = results.getJSONObject(i);
+                            //JSONObject businessJSON = results.get(i);
+                            //JSONObject businessJSONObj = results.get(i);
+                            String business = businessJSON.getString("Business");
+                            Log.v("mytag","business: "+business);
+                            //String reward = cardReward.getString("Reward");
+                            BusinessListData businessListData = new BusinessListData(business);
+                            data.add(businessListData);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             break;
                         }
                     }
-
                     rv = findViewById(R.id.RView);
                     adapter = new MyAdapter(MainActivity.this, data);
                     rv.setAdapter(adapter);
                     rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-
                 } catch(JSONException e) {
                     e.printStackTrace();
                 }
