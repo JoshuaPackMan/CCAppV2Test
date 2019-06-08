@@ -2,10 +2,11 @@ package e.android.mysqldemo;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,23 +28,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class CardSelect extends AppCompatActivity {
+    String[] businesses;
     private RecyclerView rv;
-    private BusinessAdapter adapter;
-    private List<BusinessListData> data;
+    private CCardAdapter adapter;
+    private List<CardListData> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_card_select);
+        Bundle extras = getIntent().getExtras();
+        businesses = extras.getStringArray("businesses");
 
         data = new ArrayList<>();
 
-        BusinessAsyncFetch backgroundWorker = new BusinessAsyncFetch();
+        CreditCardAsyncFetch backgroundWorker = new CreditCardAsyncFetch();
         backgroundWorker.execute("start");
     }
 
-    private class BusinessAsyncFetch extends AsyncTask<String, String, String> {
+    private class CreditCardAsyncFetch extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String type = params[0];
-            String login_url = "http://mathwithpack.com/YYXXxZzPp829382adJloginFetchBusinesses.php";
+            String login_url = "http://mathwithpack.com/ZTTaPPweSgHaT8x22loginFetchCards.php";
             if(type.equals("start")) {
                 try {
                     URL url = new URL(login_url);
@@ -88,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if(result.equals("No Results Found")) {
-                Toast.makeText(MainActivity.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
+                Toast.makeText(CardSelect.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
             } else{
                 try{
                     JSONArray results = new JSONArray(result);
@@ -96,10 +100,10 @@ public class MainActivity extends AppCompatActivity {
                     while(true){
                         try {
                             i++;
-                            JSONObject businessJSON = results.getJSONObject(i);
-                            String business = businessJSON.getString("Business");
-                            BusinessListData businessListData = new BusinessListData(business, BusinessListData.BusinessColor.WHITE);
-                            data.add(businessListData);
+                            JSONObject cardJSON = results.getJSONObject(i);
+                            String card = cardJSON.getString("CardCompany");
+                            CardListData cardListData = new CardListData(card, CardListData.CardColor.WHITE);
+                            data.add(cardListData);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             break;
@@ -107,11 +111,11 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     //set adapter and recycler view
-                    rv = findViewById(R.id.BusinessRView);
-                    adapter = new BusinessAdapter(MainActivity.this, data);
+                    rv = findViewById(R.id.CCardRView);
+                    adapter = new CCardAdapter(CardSelect.this, data);
                     rv.setAdapter(adapter);
-                    rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    adapter.setOnItemClickListener(new BusinessAdapter.OnItemClickListener() {
+                    rv.setLayoutManager(new LinearLayoutManager(CardSelect.this));
+                    adapter.setOnItemClickListener(new CCardAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(int position) {
                             data.get(position).cardClicked();
@@ -125,16 +129,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void businessNextBtn(View v){
-        List<String> selectedBusinesses = new ArrayList<>();
-        for(BusinessListData d: data){
-            if(d.getColor() == BusinessListData.BusinessColor.BLUE){
-                selectedBusinesses.add(d.getBusiness());
+    public void cardNextBtn(View v){
+        List<String> selectedCards = new ArrayList<>();
+        for(CardListData d: data){
+            if(d.getColor() == CardListData.CardColor.BLUE){
+                selectedCards.add(d.getcCard());
             }
         }
 
-        Intent cCardDisplayIntent = new Intent(this, CardSelect.class);
-        cCardDisplayIntent.putExtra("businesses", selectedBusinesses.toArray(new String[selectedBusinesses.size()]));
-        startActivity(cCardDisplayIntent);
+        Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
+        rewardDisplayIntent.putExtra("businesses", businesses);
+        rewardDisplayIntent.putExtra("cards", selectedCards.toArray(new String[selectedCards.size()]));
+        startActivity(rewardDisplayIntent);
     }
 }

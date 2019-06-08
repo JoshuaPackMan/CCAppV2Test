@@ -1,15 +1,12 @@
 package e.android.mysqldemo;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,27 +20,42 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class MainActivity extends AppCompatActivity {
+public class RewardDisplay extends AppCompatActivity {
+    String[] businesses;
+    String[] selectedCards;
+    private List<RewardListData> data;
     private RecyclerView rv;
-    private BusinessAdapter adapter;
-    private List<BusinessListData> data;
+    private RewardAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_reward_display);
+        Bundle extras = getIntent().getExtras();
+        businesses = extras.getStringArray("businesses");
+        selectedCards = extras.getStringArray("cards");
 
         data = new ArrayList<>();
 
-        BusinessAsyncFetch backgroundWorker = new BusinessAsyncFetch();
-        backgroundWorker.execute("start");
+        //set adapter and recycler view
+        rv = findViewById(R.id.RewardRView);
+        adapter = new RewardAdapter(RewardDisplay.this, data);
+        rv.setAdapter(adapter);
+        rv.setLayoutManager(new LinearLayoutManager(RewardDisplay.this));
+
+        for(String business: businesses){
+            for(String cCard: selectedCards){
+                RewardsAsyncFetch backgroundWorker = new RewardsAsyncFetch();
+                backgroundWorker.execute("rewards", business, cCard);
+            }
+        }
     }
 
-    private class BusinessAsyncFetch extends AsyncTask<String, String, String> {
+    private class RewardsAsyncFetch extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -52,16 +64,21 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String type = params[0];
-            String login_url = "http://mathwithpack.com/YYXXxZzPp829382adJloginFetchBusinesses.php";
-            if(type.equals("start")) {
+            String login_url = "http://mathwithpack.com/XZaBBaGazi28281loginFetchRewards.php";
+            if(type.equals("rewards")) {
                 try {
+                    String business = params[1];
+                    String cCard = params[2];
                     URL url = new URL(login_url);
                     HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-                    httpURLConnection.setRequestMethod("GET");
+                    httpURLConnection.setRequestMethod("POST");
                     httpURLConnection.setDoOutput(true);
                     httpURLConnection.setDoInput(true);
                     OutputStream outputStream = httpURLConnection.getOutputStream();
                     BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                    String post_data = URLEncoder.encode("business","UTF-8")+"="+URLEncoder.encode(business,"UTF-8")+"&"
+                            +URLEncoder.encode("card","UTF-8")+"="+URLEncoder.encode(cCard,"UTF-8");
+                    bufferedWriter.write(post_data);
                     bufferedWriter.flush();
                     bufferedWriter.close();
                     outputStream.close();
@@ -88,53 +105,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if(result.equals("No Results Found")) {
-                Toast.makeText(MainActivity.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
+                Toast.makeText(RewardDisplay.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
             } else{
                 try{
-                    JSONArray results = new JSONArray(result);
-                    int i = -1;
-                    while(true){
-                        try {
-                            i++;
-                            JSONObject businessJSON = results.getJSONObject(i);
-                            String business = businessJSON.getString("Business");
-                            BusinessListData businessListData = new BusinessListData(business, BusinessListData.BusinessColor.WHITE);
-                            data.add(businessListData);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            break;
-                        }
-                    }
+                    JSONObject results = new JSONObject(result);
+                    JSONObject rewardJSON = results.getJSONObject("0");
+                    String reward = rewardJSON.getString("Reward");
+                    String business = rewardJSON.getString("Business");
+                    String card = rewardJSON.getString("CardCompany");
+                    RewardListData rewardListData = new RewardListData(card, reward, business);
+                    data.add(rewardListData);
 
-                    //set adapter and recycler view
-                    rv = findViewById(R.id.BusinessRView);
-                    adapter = new BusinessAdapter(MainActivity.this, data);
-                    rv.setAdapter(adapter);
-                    rv.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    adapter.setOnItemClickListener(new BusinessAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(int position) {
-                            data.get(position).cardClicked();
-                            adapter.notifyItemChanged(position);
-                        }
-                    });
+                    adapter.notifyDataSetChanged();
                 } catch(JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
-    }
-
-    public void businessNextBtn(View v){
-        List<String> selectedBusinesses = new ArrayList<>();
-        for(BusinessListData d: data){
-            if(d.getColor() == BusinessListData.BusinessColor.BLUE){
-                selectedBusinesses.add(d.getBusiness());
-            }
-        }
-
-        Intent cCardDisplayIntent = new Intent(this, CardSelect.class);
-        cCardDisplayIntent.putExtra("businesses", selectedBusinesses.toArray(new String[selectedBusinesses.size()]));
-        startActivity(cCardDisplayIntent);
     }
 }

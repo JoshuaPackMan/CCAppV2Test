@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
-    android:id="@+id/cardView"
     app:cardCornerRadius="4dp">
 
     <RelativeLayout
@@ -13,14 +12,34 @@
         android:layout_margin="13dp">
 
         <TextView
-            android:id="@+id/business"
+            android:id="@+id/card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:text="Business"
+            android:text="Card"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/reward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/business"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Reward"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/business"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Business"
+            android:textSize="15sp" />
 
     </RelativeLayout>
 

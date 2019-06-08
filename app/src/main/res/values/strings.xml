@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Credit Card Rewards</string>
+    <string name="businessTV">Select the businesses that you want to see rewards for:</string>
+    <string name="cardTV">Select the cards that you want to see rewards for:</string>
 </resources>

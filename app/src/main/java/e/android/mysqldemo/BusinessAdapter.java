@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BusinessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater inflater;
     List<BusinessListData> data;
     private OnItemClickListener mListener;
@@ -24,7 +24,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     //create constructor to initialize context and data sent from MainActivity
-    public MyAdapter(Context context, List<BusinessListData> data){
+    public BusinessAdapter(Context context, List<BusinessListData> data){
         inflater = LayoutInflater.from(context);
         this.data = data;
     }
@@ -32,7 +32,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     //Inflate the layout when ViewHolder created
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.row, parent,false);
+        View view = inflater.inflate(R.layout.business_row, parent,false);
         MyHolder holder = new MyHolder(view, mListener);
         return holder;
     }
@@ -65,7 +65,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public MyHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             businessTV = itemView.findViewById(R.id.business);
-            cardView = itemView.findViewById(R.id.cardView);
+            cardView = itemView.findViewById(R.id.businessCardView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

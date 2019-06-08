@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/BusinessRView"
+        android:id="@+id/CCardRView"
         android:layout_width="match_parent"
         android:layout_height="590dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,8 +21,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="4dp"
-        android:text="@string/businessTV"
-        app:layout_constraintBottom_toTopOf="@+id/BusinessRView"
+        android:text="@string/cardTV"
+        app:layout_constraintBottom_toTopOf="@+id/CCardRView"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -34,9 +34,9 @@
         android:layout_marginBottom="4dp"
         android:background="@drawable/buttonshape"
         android:text="Next"
-        android:onClick="businessNextBtn"
+        android:onClick="cardNextBtn"
         android:textColor="#4248f4"
-        app:layout_constraintBottom_toTopOf="@+id/BusinessRView"
+        app:layout_constraintBottom_toTopOf="@+id/CCardRView"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

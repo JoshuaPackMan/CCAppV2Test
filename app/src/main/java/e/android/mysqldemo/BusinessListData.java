@@ -2,7 +2,7 @@ package e.android.mysqldemo;
 
 public class BusinessListData {
     private String business;
-    public enum BusinessColor {WHITE, BLUE;}
+    public enum BusinessColor {WHITE, BLUE}
     private BusinessColor color;
 
     public BusinessListData(String business, BusinessColor color) {
