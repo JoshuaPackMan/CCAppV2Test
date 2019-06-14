@@ -137,6 +137,8 @@ public class CardSelect extends AppCompatActivity {
             }
         }
 
+
+
         Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
         rewardDisplayIntent.putExtra("businesses", businesses);
         rewardDisplayIntent.putExtra("cards", selectedCards.toArray(new String[selectedCards.size()]));

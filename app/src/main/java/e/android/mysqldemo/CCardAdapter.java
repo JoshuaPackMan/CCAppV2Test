@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -46,9 +47,11 @@ public class CCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         CardListData current = data.get(position);
         myHolder.cCardTV.setText(current.getcCard());
         if(current.getColor() == CardListData.CardColor.BLUE){
-            myHolder.cardView.setCardBackgroundColor(Color.parseColor("#62f4fc"));
+            myHolder.checkIV.setBackgroundResource(R.drawable.ic_check_box_black_24dp);
+            //myHolder.cardView.setCardBackgroundColor(Color.parseColor("#62f4fc"));
         } else{
-            myHolder.cardView.setCardBackgroundColor(Color.parseColor("#fafafa"));
+            myHolder.checkIV.setBackgroundResource(R.drawable.ic_check_box_outline_blank_black_24dp);
+            //myHolder.cardView.setCardBackgroundColor(Color.parseColor("#fafafa"));
         }
 
     }
@@ -61,12 +64,14 @@ public class CCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     class MyHolder extends RecyclerView.ViewHolder {
         TextView cCardTV;
-        CardView cardView;
+        ImageView checkIV;
+        //CardView cardView;
 
         public MyHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             cCardTV = itemView.findViewById(R.id.cardTVFromcCard_row);
-            cardView = itemView.findViewById(R.id.creditCardCardView);
+            checkIV = itemView.findViewById(R.id.checkIV);
+            //cardView = itemView.findViewById(R.id.creditCardCardView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

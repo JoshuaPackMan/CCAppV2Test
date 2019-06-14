@@ -15,28 +15,41 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/selectCardsTV"
         android:layout_width="216dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="4dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="14dp"
         android:text="@string/cardTV"
-        app:layout_constraintBottom_toTopOf="@+id/CCardRView"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/cardIV"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/businessNextBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/cardNextBtn"
+        android:layout_width="55dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="14dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="4dp"
         android:background="@drawable/buttonshape"
-        android:text="Next"
         android:onClick="cardNextBtn"
-        android:textColor="#4248f4"
-        app:layout_constraintBottom_toTopOf="@+id/CCardRView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:text="Next"
+        android:textColor="#5747D6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/cardIV"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="19dp"
+        android:src="@drawable/ic_credit_card_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

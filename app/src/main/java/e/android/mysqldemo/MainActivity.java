@@ -1,9 +1,11 @@
 package e.android.mysqldemo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,7 +14,6 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rv;
     private BusinessAdapter adapter;
     private List<BusinessListData> data;
+    private SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         data = new ArrayList<>();
+
+        db = this.openOrCreateDatabase("CardDB", Context.MODE_PRIVATE, null);
+        db.execSQL("create table if not exists CardsTable (Card text);");
 
         BusinessAsyncFetch backgroundWorker = new BusinessAsyncFetch();
         backgroundWorker.execute("start");
