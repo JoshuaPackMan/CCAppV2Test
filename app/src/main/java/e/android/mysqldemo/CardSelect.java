@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,6 +15,8 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,11 +26,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
 public class CardSelect extends AppCompatActivity {
-    String[] businesses;
+    private String[] businesses;
+    private String goal;
     private RecyclerView rv;
     private CCardAdapter adapter;
     private List<CardListData> data;
@@ -39,7 +42,12 @@ public class CardSelect extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_select);
         Bundle extras = getIntent().getExtras();
-        businesses = extras.getStringArray("businesses");
+
+        goal = extras.getString("goal");
+
+        try{
+            businesses = extras.getStringArray("businesses");
+        } catch(NullPointerException e){ }
 
         data = new ArrayList<>();
 
@@ -137,11 +145,42 @@ public class CardSelect extends AppCompatActivity {
             }
         }
 
+        String[] selectedCardsArray = selectedCards.toArray(new String[selectedCards.size()]);
 
+        //write the selected cards to internal storage
+        writeSelectedCardsToInternalStorage(selectedCardsArray);
 
-        Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
-        rewardDisplayIntent.putExtra("businesses", businesses);
-        rewardDisplayIntent.putExtra("cards", selectedCards.toArray(new String[selectedCards.size()]));
-        startActivity(rewardDisplayIntent);
+        if(goal.equals("change")){
+            Intent mainActivityIntent = new Intent(this, MainActivity.class);
+            startActivity(mainActivityIntent);
+        } else if(goal.equals("rewards")){
+            Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
+            rewardDisplayIntent.putExtra("businesses", businesses);
+            rewardDisplayIntent.putExtra("cards", selectedCardsArray);
+            startActivity(rewardDisplayIntent);
+        }
+    }
+
+    private void writeSelectedCardsToInternalStorage(String[] userCards){
+        String userCardsString = Arrays.toString(userCards);
+        FileOutputStream fos = null;
+
+        try {
+            fos = openFileOutput(MainActivity.FILE_NAME, MODE_PRIVATE);
+            fos.write(userCardsString.getBytes());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
