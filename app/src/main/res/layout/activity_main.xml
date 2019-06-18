@@ -9,15 +9,17 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/BusinessRView"
         android:layout_width="match_parent"
-        android:layout_height="368dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/myCardTV"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/selectBusinessesTV" />
 
     <TextView
         android:id="@+id/selectBusinessesTV"
-        android:layout_width="216dp"
+        android:layout_width="246dp"
         android:layout_height="45dp"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
@@ -30,9 +32,9 @@
 
     <Button
         android:id="@+id/businessNextBtn"
-        android:layout_width="55dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="14dp"
+        android:layout_width="48dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/buttonshape"
@@ -56,12 +58,11 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/CCardHomeScreenRView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/disclaimerTV" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/myCardTV"
@@ -69,12 +70,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="2dp"
         android:text="My cards:"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen"
-        app:layout_constraintTop_toBottomOf="@+id/BusinessRView" />
+        app:layout_constraintBottom_toTopOf="@+id/disclaimerTV"
+        app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen" />
 
     <ImageView
         android:id="@+id/cardIVHomeScreen"
@@ -82,25 +83,25 @@
         android:layout_height="32dp"
         android:layout_marginStart="19dp"
         android:layout_marginLeft="19dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="24dp"
         android:src="@drawable/ic_credit_card_black_24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BusinessRView" />
+        app:layout_constraintBottom_toTopOf="@+id/CCardHomeScreenRView"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/cardChangeBtn"
         android:layout_width="57dp"
         android:layout_height="29dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/buttonshape"
         android:onClick="cardChangeBtnPressed"
         android:text="Change"
         android:textColor="#5747D6"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/BusinessRView" />
+        app:layout_constraintBottom_toTopOf="@+id/CCardHomeScreenRView"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/disclaimerTV"
@@ -108,9 +109,9 @@
         android:layout_height="41dp"
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="@string/disclaimer"
-        app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen"
-        app:layout_constraintTop_toBottomOf="@+id/myCardTV" />
+        app:layout_constraintBottom_toTopOf="@+id/CCardHomeScreenRView"
+        app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen" />
 
 </android.support.constraint.ConstraintLayout>

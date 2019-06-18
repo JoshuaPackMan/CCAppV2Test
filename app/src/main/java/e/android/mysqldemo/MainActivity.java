@@ -27,6 +27,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -120,6 +122,16 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         }
                     }
+
+                    //alphabetically sort the business list
+                    Collections.sort(businessData, new Comparator<BusinessListData>() {
+                        @Override
+                        public int compare(BusinessListData a, BusinessListData b) {
+                            String b1 = a.getBusiness();
+                            String b2 = b.getBusiness();
+                            return b1.compareToIgnoreCase(b2);
+                        }
+                    });
 
                     //set adapter and recycler view for businesses
                     businessRV = findViewById(R.id.BusinessRView);
