@@ -147,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     });
 
                     userCards = getUserCardsFromInternalStorage();
+                    //Log.v("mytag", Arrays.toString(userCards));
                     if(userCardsOnFile){
                         //set recycler view with user cards
                         //first turn userCards into an array list of CardListData
@@ -156,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         cardRV = findViewById(R.id.CCardHomeScreenRView);
+                        //Log.v("mytag",printCardData());
                         cardAdapter = new CCardAdapterForHomeScreen(MainActivity.this, cardData);
                         cardRV.setAdapter(cardAdapter);
                         cardRV.setLayoutManager(new LinearLayoutManager(MainActivity.this));
@@ -197,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] getUserCardsFromInternalStorage(){
         String resultFromFile = "";
         FileInputStream fis = null;
+        cardData.clear();
 
         try {
             fis = openFileInput(FILE_NAME);
@@ -249,4 +252,16 @@ public class MainActivity extends AppCompatActivity {
         userCardsOnFile = true;
         return userCardsFromFile;
     }
+
+    /*
+    private String printCardData(){
+        String[] cards = new String[cardData.size()];
+        int i = 0;
+        for(CardListData c: cardData){
+            cards[i] = c.getcCard();
+            i++;
+        }
+
+        return Arrays.toString(cards);
+    }*/
 }

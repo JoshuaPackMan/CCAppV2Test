@@ -1,5 +1,6 @@
 package e.android.mysqldemo;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,12 +48,21 @@ public class RewardDisplay extends AppCompatActivity {
         rv.setAdapter(adapter);
         rv.setLayoutManager(new LinearLayoutManager(RewardDisplay.this));
 
+        //RewardsAsyncFetch backgroundWorker = new RewardsAsyncFetch();
+        //backgroundWorker.execute("rewards", "lol", "lol");
+
         for(String business: businesses){
             for(String cCard: selectedCards){
                 RewardsAsyncFetch backgroundWorker = new RewardsAsyncFetch();
                 backgroundWorker.execute("rewards", business, cCard);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent mainActivityIntent = new Intent(this, MainActivity.class);
+        startActivity(mainActivityIntent);
     }
 
     private class RewardsAsyncFetch extends AsyncTask<String, String, String> {
@@ -108,11 +118,22 @@ public class RewardDisplay extends AppCompatActivity {
                 Toast.makeText(RewardDisplay.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
             } else{
                 try{
-                    JSONObject results = new JSONObject(result);
-                    JSONObject rewardJSON = results.getJSONObject("0");
-                    String reward = rewardJSON.getString("Reward");
-                    String business = rewardJSON.getString("Business");
-                    String card = rewardJSON.getString("CardCompany");
+                    /*
+                    JSONArray results = new JSONArray(result);
+                    for(int i=0; i< results.length(); i++){
+                        JSONObject obj = results.getJSONObject(i);
+                        String reward = obj.getString("Reward");
+                        String business = obj.getString("Business");
+                        String card = obj.getString("CardCompany");
+                        RewardListData rewardListData = new RewardListData(card, reward, business);
+                        data.add(rewardListData);
+                    }*/
+
+                    JSONObject obj1 = new JSONObject(result);
+                    JSONObject obj = obj1.getJSONObject("0");
+                    String reward = obj.getString("Reward");
+                    String business = obj.getString("Business");
+                    String card = obj.getString("CardCompany");
                     RewardListData rewardListData = new RewardListData(card, reward, business);
                     data.add(rewardListData);
 

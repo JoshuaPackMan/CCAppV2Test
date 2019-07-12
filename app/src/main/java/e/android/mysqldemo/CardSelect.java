@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -162,6 +163,16 @@ public class CardSelect extends AppCompatActivity {
     }
 
     private void writeSelectedCardsToInternalStorage(String[] userCards){
+        //clear file of any previous cards
+        try {
+            PrintWriter pw = new PrintWriter(MainActivity.FILE_NAME);
+            pw.close();
+        } catch(java.io.FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+
         String userCardsString = Arrays.toString(userCards);
         FileOutputStream fos = null;
 
