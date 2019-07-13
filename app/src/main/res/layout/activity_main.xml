@@ -10,12 +10,17 @@
         android:id="@+id/BusinessRView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/myCardTV"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="6dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/businessBottomDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectBusinessesTV" />
+        app:layout_constraintTop_toBottomOf="@+id/businessTopDivider" />
 
     <TextView
         android:id="@+id/selectBusinessesTV"
@@ -25,7 +30,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="14dp"
         android:text="@string/businessTV"
-        android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/buildingIV"
         app:layout_constraintTop_toTopOf="parent" />
@@ -55,10 +59,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/businessBottomDivider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginBottom="8dp"
+        android:background="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/myCardTV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/businessTopDivider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="6dp"
+        android:background="@android:color/black"
+        app:layout_constraintTop_toBottomOf="@+id/selectBusinessesTV"
+        tools:layout_editor_absoluteX="0dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/CCardHomeScreenRView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -72,7 +101,6 @@
         android:layout_marginLeft="15dp"
         android:layout_marginBottom="2dp"
         android:text="My cards:"
-        android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/disclaimerTV"
         app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen" />

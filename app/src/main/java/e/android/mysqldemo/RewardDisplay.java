@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -32,6 +33,9 @@ public class RewardDisplay extends AppCompatActivity {
     private List<RewardListData> data;
     private RecyclerView rv;
     private RewardAdapter adapter;
+    private int expectedNumResults;
+    private int numReturnedResults;
+    private boolean resultsFound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,10 @@ public class RewardDisplay extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         businesses = extras.getStringArray("businesses");
         selectedCards = extras.getStringArray("cards");
+
+        expectedNumResults = 0;
+        numReturnedResults = 0;
+        resultsFound = false;
 
         data = new ArrayList<>();
 
@@ -56,6 +64,7 @@ public class RewardDisplay extends AppCompatActivity {
             for(String cCard: selectedCards){
                 RewardsAsyncFetch backgroundWorker = new RewardsAsyncFetch();
                 backgroundWorker.execute("rewards", business, cCard);
+                expectedNumResults++;
             }
         }
     }
@@ -120,9 +129,10 @@ public class RewardDisplay extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
+            numReturnedResults++;
             if(result.equals("No Results Found")) {
                 Toast.makeText(RewardDisplay.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
-            } else{
+            } else if(!result.equals("")){
                 try{
                     /*
                     JSONArray results = new JSONArray(result);
@@ -134,6 +144,9 @@ public class RewardDisplay extends AppCompatActivity {
                         RewardListData rewardListData = new RewardListData(card, reward, business);
                         data.add(rewardListData);
                     }*/
+                    resultsFound = true;
+                    TextView resultsTV = findViewById(R.id.resultsTV);
+                    resultsTV.setText("Results:");
 
                     JSONObject obj1 = new JSONObject(result);
                     JSONObject obj = obj1.getJSONObject("0");
@@ -146,6 +159,13 @@ public class RewardDisplay extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 } catch(JSONException e) {
                     e.printStackTrace();
+                }
+            }
+
+            if(numReturnedResults==expectedNumResults){
+                if(!resultsFound){
+                    TextView resultsTV = findViewById(R.id.resultsTV);
+                    resultsTV.setText("No results found :(");
                 }
             }
         }

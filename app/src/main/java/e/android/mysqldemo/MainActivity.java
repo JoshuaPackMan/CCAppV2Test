@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -115,6 +117,13 @@ public class MainActivity extends AppCompatActivity {
                             i++;
                             JSONObject businessJSON = results.getJSONObject(i);
                             String business = businessJSON.getString("Business");
+                            if(business.equals("Joes Crab Shack")){
+                                business = "Joe's Crab Shack";
+                            } else if(business.equals("Kiehls")) {
+                                business = "Kiehl's";
+                            } else if(business.equals("Macys")){
+                                business = "Macy's";
+                            }
                             BusinessListData businessListData = new BusinessListData(business, BusinessListData.BusinessColor.WHITE);
                             businessData.add(businessListData);
                         } catch (JSONException e) {
@@ -173,7 +182,16 @@ public class MainActivity extends AppCompatActivity {
         List<String> selectedBusinesses = new ArrayList<>();
         for(BusinessListData d: businessData){
             if(d.getColor() == BusinessListData.BusinessColor.BLUE){
-                selectedBusinesses.add(d.getBusiness());
+                String businessToAdd = d.getBusiness();
+                if(businessToAdd.equals("Joe's Crab Shack")){
+                    selectedBusinesses.add("Joes Crab Shack");
+                } else if(businessToAdd.equals("Kiehl's")) {
+                    selectedBusinesses.add("Kiehls");
+                } else if(businessToAdd.equals("Macy's")){
+                    selectedBusinesses.add("Macys");
+                } else {
+                    selectedBusinesses.add(businessToAdd);
+                }
             }
         }
 
@@ -248,8 +266,11 @@ public class MainActivity extends AppCompatActivity {
             userCardsFromFile[x] = userCardsFromFile[x].substring(1);
         }
 
-
-        userCardsOnFile = true;
+        if(userCardsFromFile.length == 0){
+            userCardsOnFile = false;
+        } else {
+            userCardsOnFile = true;
+        }
         return userCardsFromFile;
     }
 
