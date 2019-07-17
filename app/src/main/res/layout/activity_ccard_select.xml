@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CCardSelectActivity">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/CCardRView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/cardIVHomeScreen"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="19dp"
+        android:src="@drawable/ic_credit_card_black_24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/cardChangeBtn"
+        android:layout_width="57dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/buttonshape"
+        android:onClick="cardChangeBtnPressed"
+        android:text="Change"
+        android:textColor="#5747D6"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/disclaimerTV" />
+
+    <Button
+        android:id="@+id/cardNextBtn"
+        android:layout_width="57dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/buttonshape"
+        android:onClick="cCardSelectNextBtn"
+        android:text="Next"
+        android:textColor="#5747D6"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/disclaimerTV"
+        android:layout_width="254dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/disclaimer"
+        app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen"
+        app:layout_constraintTop_toBottomOf="@+id/myCardTV" />
+
+
+    <TextView
+        android:id="@+id/myCardTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="14dp"
+        android:text="@string/mainActivityCardTV"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardChangeBtn" />
+
+</android.support.constraint.ConstraintLayout>

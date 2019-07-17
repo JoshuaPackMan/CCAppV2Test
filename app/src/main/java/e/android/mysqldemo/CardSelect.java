@@ -33,7 +33,7 @@ import java.util.List;
 
 public class CardSelect extends AppCompatActivity {
     private String[] businesses;
-    private String goal;
+    //private String goal;
     private RecyclerView rv;
     private CCardAdapter adapter;
     private List<CardListData> data;
@@ -44,7 +44,7 @@ public class CardSelect extends AppCompatActivity {
         setContentView(R.layout.activity_card_select);
         Bundle extras = getIntent().getExtras();
 
-        goal = extras.getString("goal");
+        //goal = extras.getString("goal");
 
         try{
             businesses = extras.getStringArray("businesses");
@@ -151,21 +151,28 @@ public class CardSelect extends AppCompatActivity {
         //write the selected cards to internal storage
         writeSelectedCardsToInternalStorage(selectedCardsArray);
 
+        /*
         if(goal.equals("change")){
-            Intent mainActivityIntent = new Intent(this, MainActivity.class);
-            startActivity(mainActivityIntent);
+            Intent cCardSelectActivityIntent = new Intent(this, CCardSelectActivity.class);
+            cCardSelectActivityIntent.putExtra("businesses", businesses);
+            startActivity(cCardSelectActivityIntent);
         } else if(goal.equals("rewards")){
             Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
             rewardDisplayIntent.putExtra("businesses", businesses);
             rewardDisplayIntent.putExtra("cards", selectedCardsArray);
             startActivity(rewardDisplayIntent);
-        }
+        }*/
+
+        Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
+        rewardDisplayIntent.putExtra("businesses", businesses);
+        rewardDisplayIntent.putExtra("cards", selectedCardsArray);
+        startActivity(rewardDisplayIntent);
     }
 
     private void writeSelectedCardsToInternalStorage(String[] userCards){
         //clear file of any previous cards
         try {
-            PrintWriter pw = new PrintWriter(MainActivity.FILE_NAME);
+            PrintWriter pw = new PrintWriter(CCardSelectActivity.FILE_NAME);
             pw.close();
         } catch(java.io.FileNotFoundException e) {
             e.printStackTrace();
@@ -177,7 +184,7 @@ public class CardSelect extends AppCompatActivity {
         FileOutputStream fos = null;
 
         try {
-            fos = openFileOutput(MainActivity.FILE_NAME, MODE_PRIVATE);
+            fos = openFileOutput(CCardSelectActivity.FILE_NAME, MODE_PRIVATE);
             fos.write(userCardsString.getBytes());
 
         } catch (FileNotFoundException e) {

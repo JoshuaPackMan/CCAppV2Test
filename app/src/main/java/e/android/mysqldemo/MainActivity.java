@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,7 +27,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -36,15 +34,9 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView businessRV;
-    private RecyclerView cardRV;
     private BusinessAdapter businessAdapter;
-    private CCardAdapterForHomeScreen cardAdapter;
     private List<BusinessListData> businessData;
-    private List<CardListData> cardData;
     private SQLiteDatabase db;
-    public static final String FILE_NAME = "userCards.txt";
-    private boolean userCardsOnFile;
-    private String[] userCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         businessData = new ArrayList<>();
-        cardData = new ArrayList<>();
-        userCardsOnFile = false;
 
         db = this.openOrCreateDatabase("CardDB", Context.MODE_PRIVATE, null);
         db.execSQL("create table if not exists CardsTable (Card text);");
@@ -155,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-                    userCards = getUserCardsFromInternalStorage();
+                    /*
+                        userCards = getUserCardsFromInternalStorage();
                     //Log.v("mytag", Arrays.toString(userCards));
                     if(userCardsOnFile){
                         //set recycler view with user cards
@@ -170,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                         cardAdapter = new CCardAdapterForHomeScreen(MainActivity.this, cardData);
                         cardRV.setAdapter(cardAdapter);
                         cardRV.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    }
+                    }*/
                 } catch(JSONException e) {
                     e.printStackTrace();
                 }
@@ -195,6 +186,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        Intent cCardSelectIntent = new Intent(this, CCardSelectActivity.class);
+        cCardSelectIntent.putExtra("businesses", selectedBusinesses.toArray(
+                new String[selectedBusinesses.size()]));
+        startActivity(cCardSelectIntent);
+        /*
         if(userCardsOnFile){
             Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
             rewardDisplayIntent.putExtra("businesses", selectedBusinesses.toArray(new String[selectedBusinesses.size()]));
@@ -205,73 +201,7 @@ public class MainActivity extends AppCompatActivity {
             cCardDisplayIntent.putExtra("businesses", selectedBusinesses.toArray(new String[selectedBusinesses.size()]));
             cCardDisplayIntent.putExtra("goal", "rewards");
             startActivity(cCardDisplayIntent);
-        }
-    }
-
-    public void cardChangeBtnPressed(View v){
-        Intent cCardDisplayIntent = new Intent(this, CardSelect.class);
-        cCardDisplayIntent.putExtra("goal", "change");
-        startActivity(cCardDisplayIntent);
-    }
-
-    private String[] getUserCardsFromInternalStorage(){
-        String resultFromFile = "";
-        FileInputStream fis = null;
-        cardData.clear();
-
-        try {
-            fis = openFileInput(FILE_NAME);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String text;
-
-            while ((text = br.readLine()) != null) {
-                sb.append(text);
-            }
-
-            resultFromFile = sb.toString();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        List<String> userCardsArrayList = new ArrayList<>();
-        String temp = "";
-        for(int i=1;i<resultFromFile.length()-1;i++){
-            char currentChar = resultFromFile.charAt(i);
-            if(currentChar == ','){
-                userCardsArrayList.add(temp);
-                temp = "";
-            } else if(i == resultFromFile.length()-2){
-                temp += currentChar;
-                userCardsArrayList.add(temp);
-            } else {
-                temp += currentChar;
-            }
-        }
-
-        String[] userCardsFromFile = userCardsArrayList.toArray(new String[userCardsArrayList.size()]);
-        for(int x=1;x<userCardsFromFile.length;x++){
-            userCardsFromFile[x] = userCardsFromFile[x].substring(1);
-        }
-
-        if(userCardsFromFile.length == 0){
-            userCardsOnFile = false;
-        } else {
-            userCardsOnFile = true;
-        }
-        return userCardsFromFile;
+        }*/
     }
 
     /*
