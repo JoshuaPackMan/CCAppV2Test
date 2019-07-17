@@ -17,6 +17,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="6dp"
         android:scrollbars="vertical"
+        android:fadeScrollbars="false"
         app:layout_constraintBottom_toTopOf="@+id/businessBottomDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,9 +89,9 @@
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:scrollbars="vertical"
+        android:fadeScrollbars="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -100,7 +101,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginBottom="2dp"
-        android:text="My cards:"
+        android:text="@string/mainActivityCardTV"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/disclaimerTV"
         app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen" />
