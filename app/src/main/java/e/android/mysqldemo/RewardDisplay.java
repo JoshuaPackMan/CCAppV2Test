@@ -115,7 +115,7 @@ public class RewardDisplay extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             String type = params[0];
-            String login_url = "http://mathwithpack.com/ZXyZZkMnNaTr238123PostJSONTest.php";
+            String login_url = "http://mathwithpack.com/ZXyZZkMnNaTr238123FetchRewardsJSON.php";
             if(type.equals("rewards")) {
                 try {
                     String jsonInputString = params[1];
