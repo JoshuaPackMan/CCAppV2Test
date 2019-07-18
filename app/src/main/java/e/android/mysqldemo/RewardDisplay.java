@@ -163,7 +163,7 @@ public class RewardDisplay extends AppCompatActivity {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         String reward = obj.getString("Reward");
                         String business = decodeSingleQuoteIfPresent(obj.getString("Business"));
-                        business += ":";
+                        //business += ":";
                         data.add(new RewardListData(obj.getString("CardCompany"), reward, business));
                     }
 
