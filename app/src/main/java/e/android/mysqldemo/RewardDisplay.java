@@ -161,8 +161,10 @@ public class RewardDisplay extends AppCompatActivity {
                     int length = jsonArray.length();
                     for(int i=0; i<length; i++){
                         JSONObject obj = jsonArray.getJSONObject(i);
-                        data.add(new RewardListData(obj.getString("CardCompany"),
-                                obj.getString("Reward"),obj.getString("Business")));
+                        String reward = obj.getString("Reward");
+                        String business = decodeSingleQuoteIfPresent(obj.getString("Business"));
+                        business += ":";
+                        data.add(new RewardListData(obj.getString("CardCompany"), reward, business));
                     }
 
                     adapter.notifyDataSetChanged();
@@ -214,5 +216,20 @@ public class RewardDisplay extends AppCompatActivity {
             }
             */
         }
+    }
+
+    private String decodeSingleQuoteIfPresent(String s){
+        int indexOfSingleQuote = s.indexOf("&#39");
+        if(indexOfSingleQuote == -1){
+            return s;
+        } else {
+            return decodeSingleQuoteIfPresent(decodeSingleQuote(s, indexOfSingleQuote));
+        }
+    }
+
+    private String decodeSingleQuote(String s, int indexOfSingleQuote){
+        String sub1 = s.substring(0, indexOfSingleQuote);
+        String sub2 = s.substring(indexOfSingleQuote+4);
+        return sub1+"'"+sub2;
     }
 }

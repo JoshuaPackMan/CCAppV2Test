@@ -16,8 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -107,13 +105,14 @@ public class MainActivity extends AppCompatActivity {
                             i++;
                             JSONObject businessJSON = results.getJSONObject(i);
                             String business = businessJSON.getString("Business");
+                            /*
                             if(business.equals("Joes Crab Shack")){
                                 business = "Joe's Crab Shack";
                             } else if(business.equals("Kiehls")) {
                                 business = "Kiehl's";
                             } else if(business.equals("Macys")){
                                 business = "Macy's";
-                            }
+                            }*/
                             BusinessListData businessListData = new BusinessListData(business, BusinessListData.BusinessColor.WHITE);
                             businessData.add(businessListData);
                         } catch (JSONException e) {
@@ -174,6 +173,8 @@ public class MainActivity extends AppCompatActivity {
         for(BusinessListData d: businessData){
             if(d.getColor() == BusinessListData.BusinessColor.BLUE){
                 String businessToAdd = d.getBusiness();
+                selectedBusinesses.add(encodeSingleQuoteIfPresent(businessToAdd));
+                /*
                 if(businessToAdd.equals("Joe's Crab Shack")){
                     selectedBusinesses.add("Joes Crab Shack");
                 } else if(businessToAdd.equals("Kiehl's")) {
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedBusinesses.add("Macys");
                 } else {
                     selectedBusinesses.add(businessToAdd);
-                }
+                }*/
             }
         }
 
@@ -202,6 +203,21 @@ public class MainActivity extends AppCompatActivity {
             cCardDisplayIntent.putExtra("goal", "rewards");
             startActivity(cCardDisplayIntent);
         }*/
+    }
+
+    private String encodeSingleQuoteIfPresent(String s){
+        int indexOfSingleQuote = s.indexOf("'");
+        if(indexOfSingleQuote == -1){
+            return s;
+        } else {
+            return encodeSingleQuoteIfPresent(encodeSingleQuote(s, indexOfSingleQuote));
+        }
+    }
+
+    private String encodeSingleQuote(String s, int indexOfSingleQuote){
+        String sub1 = s.substring(0, indexOfSingleQuote);
+        String sub2 = s.substring(indexOfSingleQuote+1);
+        return sub1+"&#39"+sub2;
     }
 
     /*
