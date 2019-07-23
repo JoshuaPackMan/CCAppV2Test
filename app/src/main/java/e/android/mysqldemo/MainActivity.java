@@ -105,14 +105,6 @@ public class MainActivity extends AppCompatActivity {
                             i++;
                             JSONObject businessJSON = results.getJSONObject(i);
                             String business = businessJSON.getString("Business");
-                            /*
-                            if(business.equals("Joes Crab Shack")){
-                                business = "Joe's Crab Shack";
-                            } else if(business.equals("Kiehls")) {
-                                business = "Kiehl's";
-                            } else if(business.equals("Macys")){
-                                business = "Macy's";
-                            }*/
                             BusinessListData businessListData = new BusinessListData(business, BusinessListData.BusinessColor.WHITE);
                             businessData.add(businessListData);
                         } catch (JSONException e) {
@@ -143,24 +135,6 @@ public class MainActivity extends AppCompatActivity {
                             businessAdapter.notifyItemChanged(position);
                         }
                     });
-
-                    /*
-                        userCards = getUserCardsFromInternalStorage();
-                    //Log.v("mytag", Arrays.toString(userCards));
-                    if(userCardsOnFile){
-                        //set recycler view with user cards
-                        //first turn userCards into an array list of CardListData
-                        for(String card: userCards){
-                            CardListData cData = new CardListData(card, CardListData.CardColor.WHITE);
-                            cardData.add(cData);
-                        }
-
-                        cardRV = findViewById(R.id.CCardHomeScreenRView);
-                        //Log.v("mytag",printCardData());
-                        cardAdapter = new CCardAdapterForHomeScreen(MainActivity.this, cardData);
-                        cardRV.setAdapter(cardAdapter);
-                        cardRV.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                    }*/
                 } catch(JSONException e) {
                     e.printStackTrace();
                 }
@@ -173,17 +147,7 @@ public class MainActivity extends AppCompatActivity {
         for(BusinessListData d: businessData){
             if(d.getColor() == BusinessListData.BusinessColor.BLUE){
                 String businessToAdd = d.getBusiness();
-                selectedBusinesses.add(encodeSingleQuoteIfPresent(businessToAdd));
-                /*
-                if(businessToAdd.equals("Joe's Crab Shack")){
-                    selectedBusinesses.add("Joes Crab Shack");
-                } else if(businessToAdd.equals("Kiehl's")) {
-                    selectedBusinesses.add("Kiehls");
-                } else if(businessToAdd.equals("Macy's")){
-                    selectedBusinesses.add("Macys");
-                } else {
-                    selectedBusinesses.add(businessToAdd);
-                }*/
+                selectedBusinesses.add(businessToAdd);
             }
         }
 
@@ -191,44 +155,5 @@ public class MainActivity extends AppCompatActivity {
         cCardSelectIntent.putExtra("businesses", selectedBusinesses.toArray(
                 new String[selectedBusinesses.size()]));
         startActivity(cCardSelectIntent);
-        /*
-        if(userCardsOnFile){
-            Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
-            rewardDisplayIntent.putExtra("businesses", selectedBusinesses.toArray(new String[selectedBusinesses.size()]));
-            rewardDisplayIntent.putExtra("cards", userCards);
-            startActivity(rewardDisplayIntent);
-        } else {
-            Intent cCardDisplayIntent = new Intent(this, CardSelect.class);
-            cCardDisplayIntent.putExtra("businesses", selectedBusinesses.toArray(new String[selectedBusinesses.size()]));
-            cCardDisplayIntent.putExtra("goal", "rewards");
-            startActivity(cCardDisplayIntent);
-        }*/
     }
-
-    private String encodeSingleQuoteIfPresent(String s){
-        int indexOfSingleQuote = s.indexOf("'");
-        if(indexOfSingleQuote == -1){
-            return s;
-        } else {
-            return encodeSingleQuoteIfPresent(encodeSingleQuote(s, indexOfSingleQuote));
-        }
-    }
-
-    private String encodeSingleQuote(String s, int indexOfSingleQuote){
-        String sub1 = s.substring(0, indexOfSingleQuote);
-        String sub2 = s.substring(indexOfSingleQuote+1);
-        return sub1+"&#39"+sub2;
-    }
-
-    /*
-    private String printCardData(){
-        String[] cards = new String[cardData.size()];
-        int i = 0;
-        for(CardListData c: cardData){
-            cards[i] = c.getcCard();
-            i++;
-        }
-
-        return Arrays.toString(cards);
-    }*/
 }

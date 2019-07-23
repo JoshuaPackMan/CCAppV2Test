@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -70,6 +71,7 @@ public class RewardDisplay extends AppCompatActivity {
 
             if(x < businessLength){
                 business = businesses[x];
+                Log.v("mytag","business: "+business);
             }
 
             if(x < cardsLength){
@@ -164,51 +166,10 @@ public class RewardDisplay extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     TextView resultsTV = findViewById(R.id.resultsTV);
                     resultsTV.setText("Results:");
-                    /*
-                    JSONObject obj1 = new JSONObject(result);
-                    JSONObject obj = obj1.getJSONObject("0");
-                    String reward = obj.getString("Reward");
-                    String business = obj.getString("Business");
-                    String card = obj.getString("CardCompany");
-                    RewardListData rewardListData = new RewardListData(card, reward, business);
-                    data.add(rewardListData);
-
-                    adapter.notifyDataSetChanged();*/
                 } catch(JSONException e){
                     e.printStackTrace();
                 }
             }
-            /*
-            numReturnedResults++;
-            if(result.equals("No Results Found")) {
-                Toast.makeText(RewardDisplay.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
-            } else if(!result.equals("")){
-                try{
-                    resultsFound = true;
-                    TextView resultsTV = findViewById(R.id.resultsTV);
-                    resultsTV.setText("Results:");
-
-                    JSONObject obj1 = new JSONObject(result);
-                    JSONObject obj = obj1.getJSONObject("0");
-                    String reward = obj.getString("Reward");
-                    String business = obj.getString("Business");
-                    String card = obj.getString("CardCompany");
-                    RewardListData rewardListData = new RewardListData(card, reward, business);
-                    data.add(rewardListData);
-
-                    adapter.notifyDataSetChanged();
-                } catch(JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if(numReturnedResults==expectedNumResults){
-                if(!resultsFound){
-                    TextView resultsTV = findViewById(R.id.resultsTV);
-                    resultsTV.setText("No results found :(");
-                }
-            }
-            */
         }
     }
 
