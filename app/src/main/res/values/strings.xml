@@ -5,6 +5,9 @@
     <string name="mainActivityCardTV">Scroll and see your selected cards:</string>
     <string name="Open">Open</string>
     <string name="Close">Close</string>
+    <string name="chaseSapphireNote">Please note that the Chase Sapphire rewards that this app
+        shows are only associated with online shopping through the Chase Sapphire portal.
+    </string>
     <string name="title_activity_nav_drawer_test2">NavDrawerTest2</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
