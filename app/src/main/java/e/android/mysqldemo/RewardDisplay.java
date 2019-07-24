@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -71,7 +70,6 @@ public class RewardDisplay extends AppCompatActivity {
 
             if(x < businessLength){
                 business = businesses[x];
-                Log.v("mytag","business: "+business);
             }
 
             if(x < cardsLength){
