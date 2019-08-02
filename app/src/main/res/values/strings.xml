@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Credit Card Rewards</string>
+    <string name="app_name">YMF Card Rewards</string>
     <string name="businessTV">Scroll and select the businesses that you want to see rewards for:</string>
     <string name="cardTV">Select the cards that you want to see rewards for:</string>
     <string name="mainActivityCardTV">Scroll and see your selected cards:</string>

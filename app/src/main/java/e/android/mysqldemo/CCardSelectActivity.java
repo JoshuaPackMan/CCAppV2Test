@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CCardSelectActivity extends AppCompatActivity {
-    public static final String FILE_NAME = "userCards.txt";
+    public static final String USER_SELECTED_CARDS = "userCards.txt";
     private boolean userCardsOnFile;
     String[] businesses;
     private CCardAdapterForHomeScreen cardAdapter;
@@ -42,6 +42,7 @@ public class CCardSelectActivity extends AppCompatActivity {
             cCardDisplayIntent.putExtra("businesses",businesses);
             startActivity(cCardDisplayIntent);
         }
+
     }
 
     private void displayUserCards(){
@@ -81,7 +82,7 @@ public class CCardSelectActivity extends AppCompatActivity {
         cardData.clear();
 
         try {
-            fis = openFileInput(FILE_NAME);
+            fis = openFileInput(USER_SELECTED_CARDS);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();

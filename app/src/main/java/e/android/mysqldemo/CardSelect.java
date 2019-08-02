@@ -33,6 +33,7 @@ import java.util.List;
 
 public class CardSelect extends AppCompatActivity {
     private String[] businesses;
+    public static final String ALL_CARDS = "allCards.txt";
     //private String goal;
     private RecyclerView rv;
     private CCardAdapter adapter;
@@ -106,11 +107,13 @@ public class CardSelect extends AppCompatActivity {
                 try{
                     JSONArray results = new JSONArray(result);
                     int i = -1;
+                    List<String> allCards = new ArrayList<>();
                     while(true){
                         try {
                             i++;
                             JSONObject cardJSON = results.getJSONObject(i);
                             String card = cardJSON.getString("CardCompany");
+                            allCards.add(card);
                             CardListData cardListData = new CardListData(card, CardListData.CardColor.WHITE);
                             data.add(cardListData);
                         } catch (JSONException e) {
@@ -118,6 +121,9 @@ public class CardSelect extends AppCompatActivity {
                             break;
                         }
                     }
+
+                    writeSelectedCardsToInternalStorage(allCards.toArray(new String[allCards.size()]),
+                            CardSelect.ALL_CARDS);
 
                     //set adapter and recycler view
                     rv = findViewById(R.id.CCardRView);
@@ -149,7 +155,7 @@ public class CardSelect extends AppCompatActivity {
         String[] selectedCardsArray = selectedCards.toArray(new String[selectedCards.size()]);
 
         //write the selected cards to internal storage
-        writeSelectedCardsToInternalStorage(selectedCardsArray);
+        writeSelectedCardsToInternalStorage(selectedCardsArray, CCardSelectActivity.USER_SELECTED_CARDS);
 
         /*
         if(goal.equals("change")){
@@ -169,10 +175,10 @@ public class CardSelect extends AppCompatActivity {
         startActivity(rewardDisplayIntent);
     }
 
-    private void writeSelectedCardsToInternalStorage(String[] userCards){
+    private void writeSelectedCardsToInternalStorage(String[] userCards, String filename){
         //clear file of any previous cards
         try {
-            PrintWriter pw = new PrintWriter(CCardSelectActivity.FILE_NAME);
+            PrintWriter pw = new PrintWriter(filename);
             pw.close();
         } catch(java.io.FileNotFoundException e) {
             e.printStackTrace();
@@ -184,7 +190,7 @@ public class CardSelect extends AppCompatActivity {
         FileOutputStream fos = null;
 
         try {
-            fos = openFileOutput(CCardSelectActivity.FILE_NAME, MODE_PRIVATE);
+            fos = openFileOutput(filename, MODE_PRIVATE);
             fos.write(userCardsString.getBytes());
 
         } catch (FileNotFoundException e) {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -14,6 +15,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -29,9 +32,11 @@ public class RewardDisplay extends AppCompatActivity {
     private List<RewardListData> data;
     private RecyclerView rv;
     private RewardAdapter adapter;
+    /*
     private int expectedNumResults;
     private int numReturnedResults;
     private boolean resultsFound;
+    */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +46,11 @@ public class RewardDisplay extends AppCompatActivity {
         businesses = extras.getStringArray("businesses");
         selectedCards = extras.getStringArray("cards");
 
+        /*
         expectedNumResults = 0;
         numReturnedResults = 0;
         resultsFound = false;
-
+        */
         data = new ArrayList<>();
 
         //set adapter and recycler view
@@ -147,9 +153,18 @@ public class RewardDisplay extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if(result.equals("")){
+                Button searchAgainWithAllCardsBtn = findViewById(R.id.searchAgainWithAllCardsBtn);
+                searchAgainWithAllCardsBtn.setVisibility(View.VISIBLE);
                 TextView resultsTV = findViewById(R.id.resultsTV);
                 resultsTV.setText("No results found :(");
+
+                TextView searchAgainWithAllCardsTV = findViewById(R.id.searchAgainWithAllCardsTV);
+                searchAgainWithAllCardsTV.setText("If you want to see the rewards you could get at your selected " +
+                        "business/businesses with different cards, hit the button below:");
+
             } else{
+                Button searchAgainWithAllCardsBtn = findViewById(R.id.searchAgainWithAllCardsBtn);
+                searchAgainWithAllCardsBtn.setVisibility(View.INVISIBLE);
                 try{
                     JSONArray jsonArray = new JSONArray(result);
                     int length = jsonArray.length();
@@ -184,5 +199,74 @@ public class RewardDisplay extends AppCompatActivity {
         String sub1 = s.substring(0, indexOfSingleQuote);
         String sub2 = s.substring(indexOfSingleQuote+4);
         return sub1+"'"+sub2;
+    }
+
+    private String[] getUserCardsFromInternalStorage(){
+        String resultFromFile = "";
+        FileInputStream fis = null;
+        //cardData.clear();
+
+        try {
+            fis = openFileInput(CardSelect.ALL_CARDS);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String text;
+
+            while ((text = br.readLine()) != null) {
+                sb.append(text);
+            }
+
+            resultFromFile = sb.toString();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        List<String> cardsArrayList = new ArrayList<>();
+        String temp = "";
+        for(int i=1;i<resultFromFile.length()-1;i++){
+            char currentChar = resultFromFile.charAt(i);
+            if(currentChar == ','){
+                cardsArrayList.add(temp);
+                temp = "";
+            } else if(i == resultFromFile.length()-2){
+                temp += currentChar;
+                cardsArrayList.add(temp);
+            } else {
+                temp += currentChar;
+            }
+        }
+
+        String[] cardsFromFile = cardsArrayList.toArray(new String[cardsArrayList.size()]);
+        for(int x=1;x<cardsFromFile.length;x++){
+            cardsFromFile[x] = cardsFromFile[x].substring(1);
+        }
+
+        /*
+        if(userCardsFromFile.length == 0){
+            userCardsOnFile = false;
+        } else {
+            userCardsOnFile = true;
+        }*/
+        return cardsFromFile;
+    }
+
+    public void searchAgainWithAllCards(View v){
+        String[] allCards = getUserCardsFromInternalStorage();
+        Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
+        rewardDisplayIntent.putExtra("businesses", businesses);
+        rewardDisplayIntent.putExtra("cards", allCards);
+        startActivity(rewardDisplayIntent);
     }
 }
