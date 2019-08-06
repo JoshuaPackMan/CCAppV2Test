@@ -75,6 +75,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="4dp"
         android:text="@string/disclaimer"
+        android:textColor="@android:color/black"
         app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen"
         app:layout_constraintTop_toBottomOf="@+id/myCardTV" />
 
@@ -87,6 +88,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="14dp"
         android:text="@string/mainActivityCardTV"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/cardIVHomeScreen"
         app:layout_constraintTop_toTopOf="parent" />
