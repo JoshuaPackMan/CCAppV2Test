@@ -156,7 +156,7 @@ public class RewardDisplay extends AppCompatActivity {
                 Button searchAgainWithAllCardsBtn = findViewById(R.id.searchAgainWithAllCardsBtn);
                 searchAgainWithAllCardsBtn.setVisibility(View.VISIBLE);
                 TextView resultsTV = findViewById(R.id.resultsTV);
-                resultsTV.setText("No results found :(");
+                resultsTV.setText("No Results Found:");
 
                 TextView searchAgainWithAllCardsTV = findViewById(R.id.searchAgainWithAllCardsTV);
                 searchAgainWithAllCardsTV.setText("If you want to see the rewards you could get at your selected " +
