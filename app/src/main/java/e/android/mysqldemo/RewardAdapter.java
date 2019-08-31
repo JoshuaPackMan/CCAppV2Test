@@ -56,5 +56,4 @@ public class RewardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             businessTV = itemView.findViewById(R.id.business);
         }
     }
-
 }

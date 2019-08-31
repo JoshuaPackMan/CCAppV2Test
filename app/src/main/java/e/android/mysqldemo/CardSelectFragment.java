@@ -1,12 +1,16 @@
 package e.android.mysqldemo;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -30,31 +34,45 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
 
-public class CardSelect extends AppCompatActivity {
+
+public class CardSelectFragment extends Fragment {
     private String[] businesses;
     public static final String ALL_CARDS = "allCards.txt";
-    //private String goal;
     private RecyclerView rv;
     private CCardAdapter adapter;
     private List<CardListData> data;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_card_select);
-        Bundle extras = getIntent().getExtras();
-
-        //goal = extras.getString("goal");
+        //setContentView(R.layout.activity_card_select);
+        Bundle args = getArguments();
 
         try{
-            businesses = extras.getStringArray("businesses");
+            businesses = args.getStringArray("businesses");
         } catch(NullPointerException e){ }
 
         data = new ArrayList<>();
 
         CreditCardAsyncFetch backgroundWorker = new CreditCardAsyncFetch();
         backgroundWorker.execute("start");
+
+        return inflater.inflate(R.layout.activity_card_select, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Button cardNextButton = getView().findViewById(R.id.cardNextBtn);
+        cardNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardNextBtn();
+            }
+        });
     }
 
     private class CreditCardAsyncFetch extends AsyncTask<String, String, String> {
@@ -102,7 +120,7 @@ public class CardSelect extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if(result.equals("No Results Found")) {
-                Toast.makeText(CardSelect.this, "No Results found for entered query", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "No Results found for entered query", Toast.LENGTH_LONG).show();
             } else{
                 try{
                     JSONArray results = new JSONArray(result);
@@ -123,13 +141,13 @@ public class CardSelect extends AppCompatActivity {
                     }
 
                     writeSelectedCardsToInternalStorage(allCards.toArray(new String[allCards.size()]),
-                            CardSelect.ALL_CARDS);
+                            CardSelectFragment.ALL_CARDS);
 
                     //set adapter and recycler view
-                    rv = findViewById(R.id.CCardRView);
-                    adapter = new CCardAdapter(CardSelect.this, data);
+                    rv = getView().findViewById(R.id.CCardRView);
+                    adapter = new CCardAdapter(getContext(), data);
                     rv.setAdapter(adapter);
-                    rv.setLayoutManager(new LinearLayoutManager(CardSelect.this));
+                    rv.setLayoutManager(new LinearLayoutManager(getContext()));
                     adapter.setOnItemClickListener(new CCardAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(int position) {
@@ -144,7 +162,7 @@ public class CardSelect extends AppCompatActivity {
         }
     }
 
-    public void cardNextBtn(View v){
+    public void cardNextBtn(){
         List<String> selectedCards = new ArrayList<>();
         for(CardListData d: data){
             if(d.getColor() == CardListData.CardColor.BLUE){
@@ -155,7 +173,7 @@ public class CardSelect extends AppCompatActivity {
         String[] selectedCardsArray = selectedCards.toArray(new String[selectedCards.size()]);
 
         //write the selected cards to internal storage
-        writeSelectedCardsToInternalStorage(selectedCardsArray, CCardSelectActivity.USER_SELECTED_CARDS);
+        writeSelectedCardsToInternalStorage(selectedCardsArray, CCardSelectFragment.USER_SELECTED_CARDS);
 
         /*
         if(goal.equals("change")){
@@ -163,16 +181,28 @@ public class CardSelect extends AppCompatActivity {
             cCardSelectActivityIntent.putExtra("businesses", businesses);
             startActivity(cCardSelectActivityIntent);
         } else if(goal.equals("rewards")){
-            Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
+            Intent rewardDisplayIntent = new Intent(this, RewardDisplayFragment.class);
             rewardDisplayIntent.putExtra("businesses", businesses);
             rewardDisplayIntent.putExtra("cards", selectedCardsArray);
             startActivity(rewardDisplayIntent);
         }*/
 
-        Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
+        /*
+        Intent rewardDisplayIntent = new Intent(this, RewardDisplayFragment.class);
         rewardDisplayIntent.putExtra("businesses", businesses);
         rewardDisplayIntent.putExtra("cards", selectedCardsArray);
         startActivity(rewardDisplayIntent);
+        */
+        Bundle bundle = new Bundle();
+        bundle.putStringArray("businesses", businesses);
+        bundle.putStringArray("cards", selectedCardsArray);
+        RewardDisplayFragment rewardDisplay = new RewardDisplayFragment();
+        rewardDisplay.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, rewardDisplay, "rewardDisplayFragment")
+                .addToBackStack(null)
+                .commit();
     }
 
     private void writeSelectedCardsToInternalStorage(String[] userCards, String filename){
@@ -180,7 +210,7 @@ public class CardSelect extends AppCompatActivity {
         try {
             PrintWriter pw = new PrintWriter(filename);
             pw.close();
-        } catch(java.io.FileNotFoundException e) {
+        } catch(FileNotFoundException e) {
             e.printStackTrace();
         }
 
@@ -190,7 +220,7 @@ public class CardSelect extends AppCompatActivity {
         FileOutputStream fos = null;
 
         try {
-            fos = openFileOutput(filename, MODE_PRIVATE);
+            fos = getActivity().openFileOutput(filename, MODE_PRIVATE);
             fos.write(userCardsString.getBytes());
 
         } catch (FileNotFoundException e) {

@@ -51,5 +51,4 @@ public class CCardAdapterForHomeScreen extends RecyclerView.Adapter<RecyclerView
             cCardTV = itemView.findViewById(R.id.cardTVFromcCard_row);
         }
     }
-
 }

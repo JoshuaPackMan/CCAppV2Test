@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">YMF Card Rewards</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="businessTV">Scroll and select the businesses that you want to see rewards for:</string>
     <string name="cardTV">Select the cards that you want to see rewards for:</string>
     <string name="mainActivityCardTV">Scroll and see your selected cards:</string>
@@ -9,11 +11,63 @@
         shows are only associated with online shopping through the Chase Sapphire portal.
     </string>
     <string name="title_activity_nav_drawer_test2">NavDrawerTest2</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="disclaimer">(We\'ll never ask for your credit card number. We just need the card types.)</string>
+
+    <string name="articleTitle"><b>5 Rules For Winning With Credit Card Rewards</b></string>
+    <string name="author">by Benjamin Pack</string>
+    <string name="openingParagraph">Reward credit cards are all the rage now, you can essentially get
+        one that caters exactly for what you are looking for. Hotels, airlines, cash back, travel agents,
+        investment bonuses; you name it, and you can likely find it. I feel like I get at least one offer
+        a week for a new rewards credit card! Currently in my wallet I’ve got: a travel/cash back rewards
+        (Venture), an airline card (Delta) and a hotel card (Marriott). I have a strategic reason for carrying
+        each of them, and have found the benefits to be great! Carrying a rewards credit card is basically a
+        game; you have to follow the rules and try not to lose before you can win big! Here are a couple of
+        tips I’ve learned for how to win playing the credit card rewards game:</string>
+    <string name="pointOne">1) Watch the Fees</string>
+    <string name="pointOneParagraph">Credit card companies love hitting you with fees, its how they make
+        some credit card rewardsof their money. The annual fee is the first fee you’ll likely check out.
+        Annual fees can range from $0 to as high as $495. It’s got to be a really, really good rewards credit
+        card (and there aren’t that many out there) to justify anything higher than $99/year. What about foreign
+        transaction fees? If you plan to travel internationally, these fees can really add up quickly. A lot more
+        cards are offering no foreign transaction fees. Finally, there is the all important APR, annual
+        percentage rate, which is the interest rate you’ll have to pay on any balance you may carry.
+        I absolutely advise against carrying a balance, as often APRs range higher in the 20-30% range.</string>
+    <string name="pointTwo">2) Do Your Homework</string>
+    <string name="pointTwoParagraph">All reward credit cards are not created equal and your effective
+        rewards yield can vary anywhere from 0.5% to 2.2%. What are other people saying about the rewards?
+        How easy is it to redeem the rewards, and how easy it is to use the card (i.e. Visa vs Discover)?
+        Is there a teaser annual fee that will go up in year two? How often do the rewards change or shift
+        around (ala rotating categories)? As with anything in life, jumping in head first usually doesn’t
+        work out so well.</string>
+    <string name="pointThree">3) Compare Apples to Apples</string>
+    <string name="pointThreeParagraph">As part of the game, you’ll earn anything from ‘points’ to ‘miles’ to
+        ‘cash back’. How many ‘miles’ does it take to earn a free flight? How many ‘points’ will it take to
+        stay a weekend at a hotel on the beach? Using this knowledge, translate it into dollars and cents.
+        How much do I have to spend before earning a free stay/flight? How would this compare to a cash back
+        card? Do a little math on your desired rewards card, and compare it to a couple others. Make sure
+        you’re not earning tons of ‘points’ that are basically worthless!</string>
+    <string name="pointFour">4) Use the Rewards</string>
+    <string name="pointFourParagraph">What’s the point of earning things if you can’t spend them?
+        Unlike saving for retirement, which you won’t see until you hit your upper 50s, you might as
+        well enjoy your credit card rewards! Focus on the card that can get you what you are looking
+        for the fastest!</string>
+    <string name="pointFive">5) Keep the Big Picture in Mind</string>
+    <string name="pointFiveParagraph">For many of us young professionals, a good credit score can mean a lot.
+        It can help us get approved for a car loan (although I advise paying cash!), it can help us be
+        approved to rent an apartment, get a job or even avoid paying a deposit for our utilities.
+        Ultimately though, the goal for many of us is home ownership. Buying a house will likely be the
+        biggest purchase we make in our lifetime. Having a good credit score can not only mean qualifying
+        for a $250,000 loan, but also paying a lower interest rate on the mortgage. Having too many credit
+        cards, or not showing solid borrowing behavior (carrying too large of a balance or missing payments
+        a couple of times) can wreck your credit and keep you rtreat yo selfenting for much longer than you
+        were planning! \n\nCredit card rewards and pretty awesome, as you’re now able to get as high as 2%
+        in rewards. That’s like getting a 2% discount on all your purchases! I’ve done my homework, chosen
+        the best cards, and earn almost $900 per year in cash back travel rewards. When used responsibly,
+        credit cards can be a great way to reward yourself.\n\n</string>
+
 </resources>
+

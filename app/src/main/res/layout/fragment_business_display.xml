@@ -7,17 +7,24 @@
     tools:context=".MainActivity">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/CCardRView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/BusinessRView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="8dp"
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chaseSapphireTV" />
+        app:layout_constraintTop_toBottomOf="@+id/businessTopDivider" />
 
     <TextView
-        android:id="@+id/selectCardsTV"
+        android:id="@+id/selectBusinessesTV"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
@@ -25,17 +32,17 @@
         android:layout_marginTop="14dp"
         android:layout_marginEnd="6dp"
         android:layout_marginRight="6dp"
-        android:text="@string/cardTV"
+        android:text="@string/businessTV"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        app:layout_constraintEnd_toStartOf="@+id/cardNextBtn"
-        app:layout_constraintStart_toEndOf="@+id/cardIV"
+        app:layout_constraintEnd_toStartOf="@+id/businessNextBtn"
+        app:layout_constraintStart_toEndOf="@+id/buildingIV"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/cardNextBtn"
-        android:layout_width="57dp"
-        android:layout_height="29dp"
+        android:id="@+id/businessNextBtn"
+        android:layout_width="48dp"
+        android:layout_height="26dp"
         android:layout_marginTop="19dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -46,30 +53,24 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/cardIV"
+        android:id="@+id/buildingIV"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginStart="19dp"
         android:layout_marginLeft="19dp"
         android:layout_marginTop="19dp"
-        android:src="@drawable/ic_credit_card_black_24dp"
+        android:src="@drawable/ic_account_balance_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/chaseSapphireTV"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
-        android:text="@string/chaseSapphireNote"
-        android:textColor="@android:color/black"
-        android:textSize="15sp"
+    <View
+        android:id="@+id/businessTopDivider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/selectCardsTV" />
+        app:layout_constraintTop_toBottomOf="@+id/buildingIV" />
 
 </android.support.constraint.ConstraintLayout>

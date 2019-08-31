@@ -84,5 +84,4 @@ public class CCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             });
         }
     }
-
 }

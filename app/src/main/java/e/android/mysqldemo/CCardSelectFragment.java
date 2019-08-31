@@ -1,11 +1,15 @@
 package e.android.mysqldemo;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -15,7 +19,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CCardSelectActivity extends AppCompatActivity {
+public class CCardSelectFragment extends Fragment {
     public static final String USER_SELECTED_CARDS = "userCards.txt";
     private boolean userCardsOnFile;
     String[] businesses;
@@ -24,25 +28,58 @@ public class CCardSelectActivity extends AppCompatActivity {
     private String[] userCards;
     private List<CardListData> cardData;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ccard_select);
+        //setContentView(R.layout.activity_ccard_select);
 
-        Bundle extras = getIntent().getExtras();
-        businesses = extras.getStringArray("businesses");
+        Bundle args = getArguments();
+        businesses = args.getStringArray("businesses");
         cardData = new ArrayList<>();
+
+        return inflater.inflate(R.layout.activity_ccard_select, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Button cardChangeBtn = getView().findViewById(R.id.cardChangeBtn);
+        cardChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cardChangeBtnPressed();
+            }
+        });
+
+        Button cardSelectNextBtn = getView().findViewById(R.id.cardNextBtn);
+        cardSelectNextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cCardSelectNextBtn();
+            }
+        });
+
         userCardsOnFile = false;
         userCards = getUserCardsFromInternalStorage();
 
         if(userCardsOnFile){
             displayUserCards();
         } else {
+            Bundle bundle = new Bundle();
+            bundle.putStringArray("businesses", businesses);
+            CardSelectFragment cardSelectFragment = new CardSelectFragment();
+            cardSelectFragment.setArguments(bundle);
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, cardSelectFragment, "cardSelectFragment")
+                    .addToBackStack(null)
+                    .commit();
+            /*
             Intent cCardDisplayIntent = new Intent(this, CardSelect.class);
             cCardDisplayIntent.putExtra("businesses",businesses);
             startActivity(cCardDisplayIntent);
+            */
         }
-
     }
 
     private void displayUserCards(){
@@ -54,26 +91,50 @@ public class CCardSelectActivity extends AppCompatActivity {
                 cardData.add(cData);
             }
 
-            cardRV = findViewById(R.id.CCardRView);
-            cardAdapter = new CCardAdapterForHomeScreen(CCardSelectActivity.this, cardData);
+            cardRV = getView().findViewById(R.id.CCardRView);
+            //cardRV = getActivity().findViewById(R.id.CCardRView);
+            cardAdapter = new CCardAdapterForHomeScreen(getContext(), cardData);
             cardRV.setAdapter(cardAdapter);
-            cardRV.setLayoutManager(new LinearLayoutManager(CCardSelectActivity.this));
+            cardRV.setLayoutManager(new LinearLayoutManager(getContext()));
         }
     }
 
 
 
-    public void cardChangeBtnPressed(View v){
-        Intent cCardDisplayIntent = new Intent(this, CardSelect.class);
+    private void cardChangeBtnPressed(){
+        /*
+        Intent cCardDisplayIntent = new Intent(getContext(), CardSelect.class);
         cCardDisplayIntent.putExtra("businesses",businesses);
         startActivity(cCardDisplayIntent);
+        */
+        Bundle bundle = new Bundle();
+        bundle.putStringArray("businesses", businesses);
+        CardSelectFragment cardSelectFragment = new CardSelectFragment();
+        cardSelectFragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, cardSelectFragment, "cCardSelectFragment")
+                .addToBackStack(null)
+                .commit();
     }
 
-    public void cCardSelectNextBtn(View v){
-        Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
+    public void cCardSelectNextBtn(){
+        /*
+        Intent rewardDisplayIntent = new Intent(getContext(), RewardDisplayFragment.class);
         rewardDisplayIntent.putExtra("businesses", businesses);
         rewardDisplayIntent.putExtra("cards", userCards);
         startActivity(rewardDisplayIntent);
+        */
+        Bundle bundle = new Bundle();
+        bundle.putStringArray("businesses", businesses);
+        bundle.putStringArray("cards", userCards);
+        RewardDisplayFragment rewardDisplayFragment = new RewardDisplayFragment();
+        rewardDisplayFragment.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, rewardDisplayFragment, "cCardSelectFragment")
+                .addToBackStack(null)
+                .commit();
     }
 
     private String[] getUserCardsFromInternalStorage(){
@@ -82,7 +143,8 @@ public class CCardSelectActivity extends AppCompatActivity {
         cardData.clear();
 
         try {
-            fis = openFileInput(USER_SELECTED_CARDS);
+            //fis = openFileInput(USER_SELECTED_CARDS);
+            fis = getActivity().openFileInput(USER_SELECTED_CARDS);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();

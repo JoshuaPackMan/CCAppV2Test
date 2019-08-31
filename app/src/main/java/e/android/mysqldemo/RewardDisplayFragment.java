@@ -1,12 +1,15 @@
 package e.android.mysqldemo;
 
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -26,7 +29,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RewardDisplay extends AppCompatActivity {
+public class RewardDisplayFragment extends Fragment implements IOnBackPressed{
     String[] businesses;
     String[] selectedCards;
     private List<RewardListData> data;
@@ -38,13 +41,15 @@ public class RewardDisplay extends AppCompatActivity {
     private boolean resultsFound;
     */
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reward_display);
-        Bundle extras = getIntent().getExtras();
-        businesses = extras.getStringArray("businesses");
-        selectedCards = extras.getStringArray("cards");
+        //setContentView(R.layout.activity_reward_display);
+        Bundle args = getArguments();
+        businesses = args.getStringArray("businesses");
+        selectedCards = args.getStringArray("cards");
 
         /*
         expectedNumResults = 0;
@@ -53,11 +58,32 @@ public class RewardDisplay extends AppCompatActivity {
         */
         data = new ArrayList<>();
 
+        return inflater.inflate(R.layout.activity_reward_display, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        Button searchAgainButton = getView().findViewById(R.id.searchAgainBtn);
+        searchAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchAgainBtn();
+            }
+        });
+
+        Button searchAgainWithAllCardsButton = getView().findViewById(R.id.searchAgainWithAllCardsBtn);
+        searchAgainWithAllCardsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchAgainWithAllCards();
+            }
+        });
+
         //set adapter and recycler view
-        rv = findViewById(R.id.RewardRView);
-        adapter = new RewardAdapter(RewardDisplay.this, data);
+        rv = getView().findViewById(R.id.RewardRView);
+        adapter = new RewardAdapter(getContext(), data);
         rv.setAdapter(adapter);
-        rv.setLayoutManager(new LinearLayoutManager(RewardDisplay.this));
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
         int length = 0;
         int businessLength = businesses.length;
@@ -96,14 +122,31 @@ public class RewardDisplay extends AppCompatActivity {
     }
 
     @Override
+    public boolean onBackPressed() {
+        return true;
+        /*
+        if (myCondition) {
+            //action not popBackStack
+            return true;
+        } else {
+            return false;
+        }*/
+    }
+
+    /*
+    @Override
     public void onBackPressed() {
         Intent mainActivityIntent = new Intent(this, MainActivity.class);
         startActivity(mainActivityIntent);
-    }
+    }*/
 
-    public void searchAgainBtn(View v) {
-        Intent mainActivityIntent = new Intent(this, MainActivity.class);
+    public void searchAgainBtn() {
+        /*
+        Intent mainActivityIntent = new Intent(getContext(), MainActivity.class);
         startActivity(mainActivityIntent);
+        */
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                new BusinessDisplayFragment()).commit();
     }
 
     private class RewardsAsyncFetch extends AsyncTask<String, String, String> {
@@ -153,17 +196,17 @@ public class RewardDisplay extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if(result.equals("")){
-                Button searchAgainWithAllCardsBtn = findViewById(R.id.searchAgainWithAllCardsBtn);
+                Button searchAgainWithAllCardsBtn = getView().findViewById(R.id.searchAgainWithAllCardsBtn);
                 searchAgainWithAllCardsBtn.setVisibility(View.VISIBLE);
-                TextView resultsTV = findViewById(R.id.resultsTV);
+                TextView resultsTV = getView().findViewById(R.id.resultsTV);
                 resultsTV.setText("No Results Found:");
 
-                TextView searchAgainWithAllCardsTV = findViewById(R.id.searchAgainWithAllCardsTV);
+                TextView searchAgainWithAllCardsTV = getView().findViewById(R.id.searchAgainWithAllCardsTV);
                 searchAgainWithAllCardsTV.setText("If you want to see the rewards you could get at your selected " +
                         "business/businesses with different cards, hit the button below:");
 
             } else{
-                Button searchAgainWithAllCardsBtn = findViewById(R.id.searchAgainWithAllCardsBtn);
+                Button searchAgainWithAllCardsBtn = getView().findViewById(R.id.searchAgainWithAllCardsBtn);
                 searchAgainWithAllCardsBtn.setVisibility(View.INVISIBLE);
                 try{
                     JSONArray jsonArray = new JSONArray(result);
@@ -177,7 +220,7 @@ public class RewardDisplay extends AppCompatActivity {
                     }
 
                     adapter.notifyDataSetChanged();
-                    TextView resultsTV = findViewById(R.id.resultsTV);
+                    TextView resultsTV = getView().findViewById(R.id.resultsTV);
                     resultsTV.setText("Results:");
                 } catch(JSONException e){
                     e.printStackTrace();
@@ -207,7 +250,7 @@ public class RewardDisplay extends AppCompatActivity {
         //cardData.clear();
 
         try {
-            fis = openFileInput(CardSelect.ALL_CARDS);
+            fis = getActivity().openFileInput(CardSelectFragment.ALL_CARDS);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
             StringBuilder sb = new StringBuilder();
@@ -262,11 +305,24 @@ public class RewardDisplay extends AppCompatActivity {
         return cardsFromFile;
     }
 
-    public void searchAgainWithAllCards(View v){
+    public void searchAgainWithAllCards(){
         String[] allCards = getUserCardsFromInternalStorage();
-        Intent rewardDisplayIntent = new Intent(this, RewardDisplay.class);
+        /*
+        Intent rewardDisplayIntent = new Intent(getContext(), RewardDisplayFragment.class);
         rewardDisplayIntent.putExtra("businesses", businesses);
         rewardDisplayIntent.putExtra("cards", allCards);
         startActivity(rewardDisplayIntent);
+        */
+
+        Bundle bundle = new Bundle();
+        bundle.putStringArray("businesses", businesses);
+        bundle.putStringArray("cards", allCards);
+        RewardDisplayFragment rewardDisplay = new RewardDisplayFragment();
+        rewardDisplay.setArguments(bundle);
+
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, rewardDisplay, "rewardDisplayFragment")
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/articleTitleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/articleTitle"
+                android:textColor="@android:color/black"
+                android:textSize="27dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp" />
+
+            <TextView
+                android:id="@+id/authorTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/author"
+                android:textColor="@android:color/black"
+                android:textSize="18dp"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/openingParagraphTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/openingParagraph"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/pointOneTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointOne"
+                android:textColor="@android:color/black"
+                android:textSize="24dp"/>
+
+            <TextView
+                android:id="@+id/pointOneParagraphTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointOneParagraph"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/pointTwoTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointTwo"
+                android:textColor="@android:color/black"
+                android:textSize="24dp"/>
+
+            <TextView
+                android:id="@+id/pointTwoParagraphTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointTwoParagraph"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/pointThreeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointThree"
+                android:textColor="@android:color/black"
+                android:textSize="24dp"/>
+
+            <TextView
+                android:id="@+id/pointThreeParagraphTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointThreeParagraph"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/pointFourTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointFour"
+                android:textColor="@android:color/black"
+                android:textSize="24dp"/>
+
+            <TextView
+                android:id="@+id/pointFourParagraphTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointFourParagraph"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/pointFiveTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointFive"
+                android:textColor="@android:color/black"
+                android:textSize="24dp"/>
+
+            <TextView
+                android:id="@+id/pointFiveParagraphTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/pointFiveParagraph"
+                android:textColor="@android:color/black"
+                android:textSize="20dp"/>
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
