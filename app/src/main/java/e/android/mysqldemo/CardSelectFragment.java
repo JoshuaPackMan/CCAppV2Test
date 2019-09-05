@@ -50,7 +50,6 @@ public class CardSelectFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_card_select);
         Bundle args = getArguments();
 
         try{

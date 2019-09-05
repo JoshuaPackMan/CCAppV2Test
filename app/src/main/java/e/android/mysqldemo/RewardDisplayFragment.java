@@ -41,7 +41,6 @@ public class RewardDisplayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_reward_display);
         Bundle args = getArguments();
         businesses = args.getStringArray("businesses");
         selectedCards = args.getStringArray("cards");

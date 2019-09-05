@@ -1,7 +1,6 @@
 package e.android.mysqldemo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -68,12 +67,6 @@ public class BusinessDisplayFragment extends Fragment {
                     }
                 }
 
-                /*
-                Intent cCardSelectIntent = new Intent(getContext(), CCardSelectActivity.class);
-                cCardSelectIntent.putExtra("businesses", selectedBusinesses.toArray(
-                        new String[selectedBusinesses.size()]));
-                startActivity(cCardSelectIntent);
-                */
                 Bundle bundle = new Bundle();
                 bundle.putStringArray("businesses", selectedBusinesses.toArray(
                         new String[selectedBusinesses.size()]));
@@ -181,20 +174,4 @@ public class BusinessDisplayFragment extends Fragment {
             }
         }
     }
-
-    /*
-    public void businessNextBtn(View v){
-        List<String> selectedBusinesses = new ArrayList<>();
-        for(BusinessListData d: businessData){
-            if(d.getColor() == BusinessListData.BusinessColor.BLUE){
-                String businessToAdd = d.getBusiness();
-                selectedBusinesses.add(businessToAdd);
-            }
-        }
-
-        Intent cCardSelectIntent = new Intent(getContext(), CCardSelectActivity.class);
-        cCardSelectIntent.putExtra("businesses", selectedBusinesses.toArray(
-                new String[selectedBusinesses.size()]));
-        startActivity(cCardSelectIntent);
-    }*/
 }

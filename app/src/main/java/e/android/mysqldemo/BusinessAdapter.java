@@ -44,11 +44,9 @@ public class BusinessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         BusinessListData current = data.get(position);
         myHolder.businessTV.setText(current.getBusiness());
         if(current.getColor() == BusinessListData.BusinessColor.BLUE){
-            //myHolder.cardView.setCardBackgroundColor(Color.parseColor("#5747D6"));
             myHolder.checkIV.setBackgroundResource(R.drawable.ic_check_box_black_24dp);
         } else{
             myHolder.checkIV.setBackgroundResource(R.drawable.ic_check_box_outline_blank_black_24dp);
-            //myHolder.cardView.setCardBackgroundColor(Color.parseColor("#fafafa"));
         }
 
     }
@@ -62,13 +60,11 @@ public class BusinessAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     class MyHolder extends RecyclerView.ViewHolder {
         TextView businessTV;
         ImageView checkIV;
-        //CardView cardView;
 
         public MyHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             businessTV = itemView.findViewById(R.id.business);
             checkIV = itemView.findViewById(R.id.checkIV);
-            //cardView = itemView.findViewById(R.id.businessCardView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

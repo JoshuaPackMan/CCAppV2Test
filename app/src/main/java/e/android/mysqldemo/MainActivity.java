@@ -64,12 +64,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
             super.onBackPressed();
-            /*
-            if (this.drawer.isDrawerOpen(GravityCompat.START)) {
-                this.drawer.closeDrawer(GravityCompat.START);
-            } else {
-
-            }*/
         } else {
             getSupportFragmentManager().popBackStack();
         }

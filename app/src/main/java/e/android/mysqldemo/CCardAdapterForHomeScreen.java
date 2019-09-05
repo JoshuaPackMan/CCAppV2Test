@@ -44,7 +44,6 @@ public class CCardAdapterForHomeScreen extends RecyclerView.Adapter<RecyclerView
 
     class MyHolder extends RecyclerView.ViewHolder {
         TextView cCardTV;
-        //CardView cardView;
 
         public MyHolder(View itemView) {
             super(itemView);

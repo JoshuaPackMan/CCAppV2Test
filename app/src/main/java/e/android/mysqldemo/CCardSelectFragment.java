@@ -117,12 +117,6 @@ public class CCardSelectFragment extends Fragment {
     }
 
     public void cCardSelectNextBtn(){
-        /*
-        Intent rewardDisplayIntent = new Intent(getContext(), RewardDisplayFragment.class);
-        rewardDisplayIntent.putExtra("businesses", businesses);
-        rewardDisplayIntent.putExtra("cards", userCards);
-        startActivity(rewardDisplayIntent);
-        */
         Bundle bundle = new Bundle();
         bundle.putStringArray("businesses", businesses);
         bundle.putStringArray("cards", userCards);
@@ -141,7 +135,6 @@ public class CCardSelectFragment extends Fragment {
         cardData.clear();
 
         try {
-            //fis = openFileInput(USER_SELECTED_CARDS);
             fis = getActivity().openFileInput(USER_SELECTED_CARDS);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);

@@ -46,10 +46,8 @@ public class CCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         myHolder.cCardTV.setText(current.getcCard());
         if(current.getColor() == CardListData.CardColor.BLUE){
             myHolder.checkIV.setBackgroundResource(R.drawable.ic_check_box_black_24dp);
-            //myHolder.cardView.setCardBackgroundColor(Color.parseColor("#62f4fc"));
         } else{
             myHolder.checkIV.setBackgroundResource(R.drawable.ic_check_box_outline_blank_black_24dp);
-            //myHolder.cardView.setCardBackgroundColor(Color.parseColor("#fafafa"));
         }
 
     }
@@ -63,13 +61,11 @@ public class CCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     class MyHolder extends RecyclerView.ViewHolder {
         TextView cCardTV;
         ImageView checkIV;
-        //CardView cardView;
 
         public MyHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             cCardTV = itemView.findViewById(R.id.cardTVFromcCard_row);
             checkIV = itemView.findViewById(R.id.checkIV);
-            //cardView = itemView.findViewById(R.id.creditCardCardView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
