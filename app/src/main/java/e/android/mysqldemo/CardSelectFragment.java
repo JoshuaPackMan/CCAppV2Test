@@ -1,5 +1,6 @@
 package e.android.mysqldemo;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -141,7 +142,7 @@ public class CardSelectFragment extends Fragment {
                     }
 
                     writeSelectedCardsToInternalStorage(allCards.toArray(new String[allCards.size()]),
-                            CardSelectFragment.ALL_CARDS);
+                            CardSelectFragment.ALL_CARDS, getActivity());
 
                     //set adapter and recycler view
                     rv = getView().findViewById(R.id.CCardRView);
@@ -172,27 +173,17 @@ public class CardSelectFragment extends Fragment {
 
         String[] selectedCardsArray = selectedCards.toArray(new String[selectedCards.size()]);
 
+
+        if(selectedCardsArray.length == 0){
+            Toast.makeText(getContext(), "Please select at least one card", Toast.LENGTH_LONG).
+                    show();
+            return;
+        }
+
         //write the selected cards to internal storage
-        writeSelectedCardsToInternalStorage(selectedCardsArray, CCardSelectFragment.USER_SELECTED_CARDS);
+        writeSelectedCardsToInternalStorage(selectedCardsArray, CCardSelectFragment.USER_SELECTED_CARDS,
+                getActivity());
 
-        /*
-        if(goal.equals("change")){
-            Intent cCardSelectActivityIntent = new Intent(this, CCardSelectActivity.class);
-            cCardSelectActivityIntent.putExtra("businesses", businesses);
-            startActivity(cCardSelectActivityIntent);
-        } else if(goal.equals("rewards")){
-            Intent rewardDisplayIntent = new Intent(this, RewardDisplayFragment.class);
-            rewardDisplayIntent.putExtra("businesses", businesses);
-            rewardDisplayIntent.putExtra("cards", selectedCardsArray);
-            startActivity(rewardDisplayIntent);
-        }*/
-
-        /*
-        Intent rewardDisplayIntent = new Intent(this, RewardDisplayFragment.class);
-        rewardDisplayIntent.putExtra("businesses", businesses);
-        rewardDisplayIntent.putExtra("cards", selectedCardsArray);
-        startActivity(rewardDisplayIntent);
-        */
         Bundle bundle = new Bundle();
         bundle.putStringArray("businesses", businesses);
         bundle.putStringArray("cards", selectedCardsArray);
@@ -205,7 +196,8 @@ public class CardSelectFragment extends Fragment {
                 .commit();
     }
 
-    private void writeSelectedCardsToInternalStorage(String[] userCards, String filename){
+    public static void writeSelectedCardsToInternalStorage(String[] userCards, String filename,
+                                                     Activity activity){
         //clear file of any previous cards
         try {
             PrintWriter pw = new PrintWriter(filename);
@@ -220,7 +212,7 @@ public class CardSelectFragment extends Fragment {
         FileOutputStream fos = null;
 
         try {
-            fos = getActivity().openFileOutput(filename, MODE_PRIVATE);
+            fos = activity.openFileOutput(filename, MODE_PRIVATE);
             fos.write(userCardsString.getBytes());
 
         } catch (FileNotFoundException e) {

@@ -29,17 +29,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RewardDisplayFragment extends Fragment implements IOnBackPressed{
+public class RewardDisplayFragment extends Fragment {
     String[] businesses;
     String[] selectedCards;
     private List<RewardListData> data;
     private RecyclerView rv;
     private RewardAdapter adapter;
-    /*
-    private int expectedNumResults;
-    private int numReturnedResults;
-    private boolean resultsFound;
-    */
 
     @Nullable
     @Override
@@ -51,11 +46,6 @@ public class RewardDisplayFragment extends Fragment implements IOnBackPressed{
         businesses = args.getStringArray("businesses");
         selectedCards = args.getStringArray("cards");
 
-        /*
-        expectedNumResults = 0;
-        numReturnedResults = 0;
-        resultsFound = false;
-        */
         data = new ArrayList<>();
 
         return inflater.inflate(R.layout.activity_reward_display, container, false);
@@ -121,32 +111,9 @@ public class RewardDisplayFragment extends Fragment implements IOnBackPressed{
         backgroundWorker.execute("rewards", jsonArray.toString());
     }
 
-    @Override
-    public boolean onBackPressed() {
-        return true;
-        /*
-        if (myCondition) {
-            //action not popBackStack
-            return true;
-        } else {
-            return false;
-        }*/
-    }
-
-    /*
-    @Override
-    public void onBackPressed() {
-        Intent mainActivityIntent = new Intent(this, MainActivity.class);
-        startActivity(mainActivityIntent);
-    }*/
-
     public void searchAgainBtn() {
-        /*
-        Intent mainActivityIntent = new Intent(getContext(), MainActivity.class);
-        startActivity(mainActivityIntent);
-        */
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new BusinessDisplayFragment()).commit();
+                new BusinessDisplayFragment()).addToBackStack(null).commit();
     }
 
     private class RewardsAsyncFetch extends AsyncTask<String, String, String> {
@@ -215,7 +182,6 @@ public class RewardDisplayFragment extends Fragment implements IOnBackPressed{
                         JSONObject obj = jsonArray.getJSONObject(i);
                         String reward = obj.getString("Reward");
                         String business = decodeSingleQuoteIfPresent(obj.getString("Business"));
-                        //business += ":";
                         data.add(new RewardListData(obj.getString("CardCompany"), reward, business));
                     }
 
@@ -247,7 +213,6 @@ public class RewardDisplayFragment extends Fragment implements IOnBackPressed{
     private String[] getUserCardsFromInternalStorage(){
         String resultFromFile = "";
         FileInputStream fis = null;
-        //cardData.clear();
 
         try {
             fis = getActivity().openFileInput(CardSelectFragment.ALL_CARDS);
@@ -296,23 +261,11 @@ public class RewardDisplayFragment extends Fragment implements IOnBackPressed{
             cardsFromFile[x] = cardsFromFile[x].substring(1);
         }
 
-        /*
-        if(userCardsFromFile.length == 0){
-            userCardsOnFile = false;
-        } else {
-            userCardsOnFile = true;
-        }*/
         return cardsFromFile;
     }
 
     public void searchAgainWithAllCards(){
         String[] allCards = getUserCardsFromInternalStorage();
-        /*
-        Intent rewardDisplayIntent = new Intent(getContext(), RewardDisplayFragment.class);
-        rewardDisplayIntent.putExtra("businesses", businesses);
-        rewardDisplayIntent.putExtra("cards", allCards);
-        startActivity(rewardDisplayIntent);
-        */
 
         Bundle bundle = new Bundle();
         bundle.putStringArray("businesses", businesses);

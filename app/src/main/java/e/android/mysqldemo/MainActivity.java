@@ -1,9 +1,7 @@
 package e.android.mysqldemo;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
                     new BusinessDisplayFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_credit_card);
         }
@@ -44,11 +42,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_credit_card:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new BusinessDisplayFragment()).commit();
+                        new BusinessDisplayFragment()).addToBackStack(null).commit();
                 break;
             case R.id.nav_articles:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ArticlesFragment()).commit();
+                        new ArticlesFragment()).addToBackStack(null).commit();
                 break;
         }
 
@@ -58,21 +56,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
-            if(drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            } else {
-                super.onBackPressed();
-            }
-        } else {
+        if (this.drawer.isDrawerOpen(GravityCompat.START)) {
+            this.drawer.closeDrawer(GravityCompat.START);
+            return;
+        }
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            super.onBackPressed();
             /*
-            Intent mainActivityIntent = new Intent(this, MainActivity.class);
-            startActivity(mainActivityIntent);
-            */
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new BusinessDisplayFragment()).commit();
-            //navigationView.setCheckedItem(R.id.nav_credit_card);
+            if (this.drawer.isDrawerOpen(GravityCompat.START)) {
+                this.drawer.closeDrawer(GravityCompat.START);
+            } else {
+
+            }*/
+        } else {
+            getSupportFragmentManager().popBackStack();
         }
     }
 }

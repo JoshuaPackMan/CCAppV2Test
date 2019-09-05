@@ -33,7 +33,6 @@ public class CCardSelectFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_ccard_select);
 
         Bundle args = getArguments();
         businesses = args.getStringArray("businesses");
@@ -66,6 +65,15 @@ public class CCardSelectFragment extends Fragment {
         if(userCardsOnFile){
             displayUserCards();
         } else {
+            //write a card to internal storage to prevent a back button endless loop
+            //(because if you hit back from cardSelectFragment then you'll come back here
+            //which will send you back to cardSelectFragment because you don't have any cards
+            String[] fillerCard = {"Bank of America"};
+            CardSelectFragment.writeSelectedCardsToInternalStorage(fillerCard,
+                    CCardSelectFragment.USER_SELECTED_CARDS,
+                    getActivity());
+
+
             Bundle bundle = new Bundle();
             bundle.putStringArray("businesses", businesses);
             CardSelectFragment cardSelectFragment = new CardSelectFragment();
@@ -74,13 +82,9 @@ public class CCardSelectFragment extends Fragment {
                     .replace(R.id.fragment_container, cardSelectFragment, "cardSelectFragment")
                     .addToBackStack(null)
                     .commit();
-            /*
-            Intent cCardDisplayIntent = new Intent(this, CardSelect.class);
-            cCardDisplayIntent.putExtra("businesses",businesses);
-            startActivity(cCardDisplayIntent);
-            */
         }
     }
+
 
     private void displayUserCards(){
         if(userCardsOnFile){
@@ -92,7 +96,6 @@ public class CCardSelectFragment extends Fragment {
             }
 
             cardRV = getView().findViewById(R.id.CCardRView);
-            //cardRV = getActivity().findViewById(R.id.CCardRView);
             cardAdapter = new CCardAdapterForHomeScreen(getContext(), cardData);
             cardRV.setAdapter(cardAdapter);
             cardRV.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -102,11 +105,6 @@ public class CCardSelectFragment extends Fragment {
 
 
     private void cardChangeBtnPressed(){
-        /*
-        Intent cCardDisplayIntent = new Intent(getContext(), CardSelect.class);
-        cCardDisplayIntent.putExtra("businesses",businesses);
-        startActivity(cCardDisplayIntent);
-        */
         Bundle bundle = new Bundle();
         bundle.putStringArray("businesses", businesses);
         CardSelectFragment cardSelectFragment = new CardSelectFragment();
