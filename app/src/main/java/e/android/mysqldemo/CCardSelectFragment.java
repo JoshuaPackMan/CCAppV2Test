@@ -38,7 +38,7 @@ public class CCardSelectFragment extends Fragment {
         businesses = args.getStringArray("businesses");
         cardData = new ArrayList<>();
 
-        return inflater.inflate(R.layout.activity_ccard_select, container, false);
+        return inflater.inflate(R.layout.fragment_ccard_select, container, false);
     }
 
     @Override

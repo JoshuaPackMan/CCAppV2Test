@@ -61,7 +61,7 @@ public class CardSelectFragment extends Fragment {
         CreditCardAsyncFetch backgroundWorker = new CreditCardAsyncFetch();
         backgroundWorker.execute("start");
 
-        return inflater.inflate(R.layout.activity_card_select, container, false);
+        return inflater.inflate(R.layout.fragment_card_select, container, false);
     }
 
     @Override

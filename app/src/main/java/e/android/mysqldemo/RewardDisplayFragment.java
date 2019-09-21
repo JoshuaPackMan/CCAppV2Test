@@ -47,7 +47,7 @@ public class RewardDisplayFragment extends Fragment {
 
         data = new ArrayList<>();
 
-        return inflater.inflate(R.layout.activity_reward_display, container, false);
+        return inflater.inflate(R.layout.fragment_reward_display, container, false);
     }
 
     @Override

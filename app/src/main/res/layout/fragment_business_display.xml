@@ -43,12 +43,14 @@
         android:id="@+id/businessNextBtn"
         android:layout_width="48dp"
         android:layout_height="26dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/buttonshape"
         android:text="Next"
         android:textColor="#5747D6"
+        app:layout_constraintBottom_toTopOf="@+id/businessTopDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,10 +58,15 @@
         android:id="@+id/buildingIV"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginLeft="19dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:src="@drawable/ic_account_balance_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/businessTopDivider"
+        app:layout_constraintEnd_toStartOf="@+id/selectBusinessesTV"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,6 +78,6 @@
         android:background="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buildingIV" />
+        app:layout_constraintTop_toBottomOf="@+id/selectBusinessesTV" />
 
 </android.support.constraint.ConstraintLayout>
